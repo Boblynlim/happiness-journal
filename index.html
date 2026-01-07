@@ -340,10 +340,11 @@
 
       .post-it-image {
         width: calc(100% + 40px);
-        margin: -20px -20px 16px -20px;
-        height: 200px;
+        margin: -20px -20px 12px -20px;
+        height: 120px;
         object-fit: cover;
         border-radius: var(--radius-md) var(--radius-md) 0 0;
+        flex-shrink: 0;
       }
 
       .post-it-text {
@@ -351,14 +352,14 @@
         font-size: 15px;
         line-height: 1.6;
         color: rgba(0, 0, 0, 0.85);
-        margin-bottom: 16px;
         font-weight: 400;
         flex: 1;
         overflow: hidden;
         display: -webkit-box;
-        -webkit-line-clamp: 5;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         text-overflow: ellipsis;
+        min-height: 0;
       }
 
       .post-it-footer {
@@ -369,6 +370,7 @@
         color: rgba(0, 0, 0, 0.4);
         font-weight: 500;
         margin-bottom: 12px;
+        flex-shrink: 0;
       }
 
       .post-it-category {
@@ -2917,7 +2919,10 @@ Generate a personalized insight (1-2 sentences) that shows what this pattern rev
         empty.style.display = "none";
         grid.style.display = "block";
 
-        grid.innerHTML = entries
+        // Sort by date descending (newest first) for display
+        const sortedEntries = [...entries].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        grid.innerHTML = sortedEntries
           .map(
             (entry, idx) => `
                 <div class="post-it" style="background: ${
