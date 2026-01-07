@@ -401,7 +401,7 @@
 
       .modal-overlay.active {
         display: block;
-        background: rgba(0, 0, 0, 0.3);
+        background: transparent;
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
       }
@@ -769,6 +769,7 @@
         font-weight: 500;
         cursor: pointer;
         transition: all 0.2s var(--ease-out);
+        display: flex;
         align-items: center;
         justify-content: center;
         gap: 8px;
@@ -953,7 +954,9 @@
         width: 90%;
         border-radius: var(--radius-xl);
         padding: 0;
-        max-height: none;
+        max-height: 90vh;
+        overflow-y: auto;
+        background: white;
       }
 
       #viewModal.active .modal {
@@ -965,14 +968,16 @@
       .view-modal-header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        padding: 24px 24px 16px;
+        align-items: flex-start;
+        padding: 24px 24px 20px;
+        background: white;
       }
 
       .view-modal-title {
-        font-size: 20px;
+        font-size: 24px;
         font-weight: 600;
         color: var(--color-text);
+        letter-spacing: -0.5px;
       }
 
       .edit-icon-btn {
@@ -1000,6 +1005,23 @@
 
       .view-post-it-container {
         padding: 0 24px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        background: white;
+      }
+
+      .view-image-section {
+        border: 8px solid white;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        cursor: pointer;
+        transition: transform 0.2s var(--ease-out);
+      }
+
+      .view-image-section:hover {
+        transform: scale(1.02);
       }
 
       .view-post-it {
@@ -1007,18 +1029,36 @@
         border-radius: var(--radius-lg);
         padding: 20px;
         position: relative;
-        min-height: 300px;
-        max-height: 400px;
+        min-height: 250px;
+        max-height: 450px;
         display: flex;
         flex-direction: column;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid transparent;
+      }
+
+      .view-post-it.white-note {
+        border: 1px solid #f3f4f6;
+      }
+
+      .view-post-it::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.03"/></svg>');
+        pointer-events: none;
+        opacity: 0.5;
+        border-radius: var(--radius-lg);
       }
 
       .view-post-it-header {
         display: flex;
         justify-content: space-between;
-        align-items: flex-start;
+        align-items: center;
         margin-bottom: 16px;
         gap: 12px;
+        position: relative;
+        z-index: 1;
       }
 
       .view-post-it-date {
@@ -1040,17 +1080,17 @@
       }
 
       .view-post-it-image {
-        width: calc(100% + 40px);
-        margin: -20px -20px 16px -20px;
-        height: 200px;
+        width: 100%;
+        height: 350px;
         object-fit: cover;
-        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        display: block;
       }
 
       .view-post-it-content {
         flex: 1;
         overflow-y: auto;
-        margin-top: 8px;
+        position: relative;
+        z-index: 1;
       }
 
       .view-note-text {
@@ -1344,12 +1384,18 @@
           </button>
         </div>
         <div class="view-post-it-container">
+          <!-- Image Section -->
+          <div
+            class="view-image-section"
+            id="viewImageSection"
+            style="display: none"
+            onclick="viewFullImage()"
+          >
+            <img id="viewImage" class="view-post-it-image" />
+          </div>
+
+          <!-- Post-it with Date, Tag, and Text -->
           <div class="view-post-it" id="viewPostIt">
-            <img
-              id="viewImage"
-              class="view-post-it-image"
-              style="display: none"
-            />
             <div class="view-post-it-header">
               <div class="view-post-it-date" id="viewDate"></div>
               <div class="view-post-it-category" id="viewCategory"></div>
@@ -1583,7 +1629,8 @@
           <div class="settings-section">
             <h3>Cloud Sync (Firebase)</h3>
             <p>
-              Sync your entries across devices and never lose your data. Your journal is private and encrypted.
+              Sync your entries across devices and never lose your data. Your
+              journal is private and encrypted.
             </p>
 
             <input
@@ -1635,7 +1682,12 @@
 
             <div class="info-box">
               <p><strong>How to set up Firebase (free):</strong></p>
-              <p>1. Go to <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a></p>
+              <p>
+                1. Go to
+                <a href="https://console.firebase.google.com" target="_blank"
+                  >console.firebase.google.com</a
+                >
+              </p>
               <p>2. Create a new project (or use existing)</p>
               <p>3. Enable Firestore Database</p>
               <p>4. Go to Project Settings → General</p>
@@ -1663,7 +1715,8 @@
       let auth = null;
       let currentUser = null;
       let unsubscribeSnapshot = null;
-      let firebaseConfig = JSON.parse(localStorage.getItem("firebaseConfig")) || null;
+      let firebaseConfig =
+        JSON.parse(localStorage.getItem("firebaseConfig")) || null;
 
       // Firebase Functions
       async function initializeFirebase(config) {
@@ -1706,7 +1759,9 @@
             });
 
             // Update local entries
-            entries = firebaseEntries.sort((a, b) => new Date(a.date) - new Date(b.date));
+            entries = firebaseEntries.sort(
+              (a, b) => new Date(a.date) - new Date(b.date)
+            );
 
             // Also save to localStorage as backup
             localStorage.setItem("happinessEntries", JSON.stringify(entries));
@@ -1723,7 +1778,9 @@
         }
 
         try {
-          const docRef = db.collection(`users/${currentUser.uid}/entries`).doc(entry.id.toString());
+          const docRef = db
+            .collection(`users/${currentUser.uid}/entries`)
+            .doc(entry.id.toString());
           await docRef.set(entry);
           return true;
         } catch (error) {
@@ -1740,7 +1797,10 @@
         }
 
         try {
-          await db.collection(`users/${currentUser.uid}/entries`).doc(entryId.toString()).delete();
+          await db
+            .collection(`users/${currentUser.uid}/entries`)
+            .doc(entryId.toString())
+            .delete();
           return true;
         } catch (error) {
           console.error("Error deleting from Firebase:", error);
@@ -1749,7 +1809,7 @@
       }
 
       function saveToLocalStorage(entry) {
-        const existingIndex = entries.findIndex(e => e.id === entry.id);
+        const existingIndex = entries.findIndex((e) => e.id === entry.id);
         if (existingIndex !== -1) {
           entries[existingIndex] = entry;
         } else {
@@ -1761,14 +1821,16 @@
       }
 
       function deleteFromLocalStorage(entryId) {
-        entries = entries.filter(e => e.id !== entryId);
+        entries = entries.filter((e) => e.id !== entryId);
         localStorage.setItem("happinessEntries", JSON.stringify(entries));
         return true;
       }
 
       function saveFirebaseConfig() {
         const apiKey = document.getElementById("firebaseApiKey").value.trim();
-        const projectId = document.getElementById("firebaseProjectId").value.trim();
+        const projectId = document
+          .getElementById("firebaseProjectId")
+          .value.trim();
 
         if (!apiKey || !projectId) {
           alert("Please enter both Firebase API Key and Project ID");
@@ -1781,15 +1843,23 @@
 
         initializeFirebase(config).then((success) => {
           if (success) {
-            alert("✅ Firebase connected!\n\nYour journal is now syncing to the cloud.");
+            alert(
+              "✅ Firebase connected!\n\nYour journal is now syncing to the cloud."
+            );
           } else {
-            alert("❌ Failed to connect to Firebase\n\nPlease check your credentials.");
+            alert(
+              "❌ Failed to connect to Firebase\n\nPlease check your credentials."
+            );
           }
         });
       }
 
       function clearFirebaseConfig() {
-        if (confirm("Remove Firebase sync?\n\nYour data will stay on this device but won't sync to cloud.")) {
+        if (
+          confirm(
+            "Remove Firebase sync?\n\nYour data will stay on this device but won't sync to cloud."
+          )
+        ) {
           if (unsubscribeSnapshot) {
             unsubscribeSnapshot();
           }
@@ -2566,8 +2636,10 @@ Generate a personalized insight (1-2 sentences) that shows what this pattern rev
 
         // Initialize Firebase if configured
         if (firebaseConfig) {
-          document.getElementById("firebaseApiKey").value = firebaseConfig.apiKey || "";
-          document.getElementById("firebaseProjectId").value = firebaseConfig.projectId || "";
+          document.getElementById("firebaseApiKey").value =
+            firebaseConfig.apiKey || "";
+          document.getElementById("firebaseProjectId").value =
+            firebaseConfig.projectId || "";
           await initializeFirebase(firebaseConfig);
         }
 
@@ -2597,15 +2669,25 @@ Generate a personalized insight (1-2 sentences) that shows what this pattern rev
         ).textContent = `${getCategoryEmoji(
           entry.category
         )} ${entry.category.toLowerCase()}`;
-        document.getElementById("viewPostIt").style.background = entry.color;
 
-        // Handle image
+        const viewPostIt = document.getElementById("viewPostIt");
+        viewPostIt.style.background = entry.color;
+
+        // Add white-note class if the color is white
+        if (entry.color.toUpperCase() === '#FFFFFF') {
+          viewPostIt.classList.add('white-note');
+        } else {
+          viewPostIt.classList.remove('white-note');
+        }
+
+        // Handle image section
+        const viewImgSection = document.getElementById("viewImageSection");
         const viewImg = document.getElementById("viewImage");
         if (entry.image) {
           viewImg.src = entry.image;
-          viewImg.style.display = "block";
+          viewImgSection.style.display = "block";
         } else {
-          viewImg.style.display = "none";
+          viewImgSection.style.display = "none";
         }
 
         document.getElementById("viewModal").classList.add("active");
@@ -2616,6 +2698,14 @@ Generate a personalized insight (1-2 sentences) that shows what this pattern rev
             lucide.createIcons();
           }
         }, 100);
+      }
+
+      function viewFullImage() {
+        const img = document.getElementById("viewImage");
+        if (!img.src) return;
+
+        // Open image in new window/tab
+        window.open(img.src, "_blank");
       }
 
       function closeViewModal() {
