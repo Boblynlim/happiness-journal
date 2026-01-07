@@ -279,18 +279,17 @@
         font-weight: 400;
       }
 
-      /* Masonry Grid */
+      /* Grid Layout */
       .grid {
-        columns: 2;
-        column-gap: 16px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
         opacity: 0;
         animation: fadeIn 0.8s var(--ease-out) 0.1s forwards;
       }
 
       /* Post-it Card */
       .post-it {
-        break-inside: avoid;
-        margin-bottom: 16px;
         border-radius: var(--radius-md);
         padding: 20px;
         background: var(--yellow);
@@ -2657,6 +2656,90 @@ Generate a personalized insight (1-2 sentences) that shows what this pattern rev
         if (typeof lucide !== "undefined") {
           lucide.createIcons();
         }
+
+        // Initialize swipe-down gesture for modals
+        initSwipeGestures();
+      }
+
+      // Swipe gesture support
+      function initSwipeGestures() {
+        const modalConfigs = [
+          { id: 'addModal', overlay: 'addModal' },
+          { id: 'viewModal', overlay: 'viewModal' },
+          { id: 'categoriesModal', overlay: 'categoriesModal' },
+          { id: 'settingsModal', overlay: 'settingsModal' }
+        ];
+
+        modalConfigs.forEach(config => {
+          const overlayElement = document.getElementById(config.overlay);
+          if (!overlayElement) return;
+
+          const modalElement = overlayElement.querySelector('.modal');
+          if (!modalElement) return;
+
+          let touchStartY = 0;
+          let touchCurrentY = 0;
+          let isDragging = false;
+          let startedOnHandle = false;
+
+          modalElement.addEventListener('touchstart', (e) => {
+            // Check if touch started on modal handle or header
+            const target = e.target;
+            startedOnHandle = target.classList.contains('modal-handle') ||
+                             target.classList.contains('modal-header') ||
+                             target.closest('.modal-handle') ||
+                             target.closest('.modal-header');
+
+            touchStartY = e.touches[0].clientY;
+            touchCurrentY = touchStartY;
+            isDragging = true;
+          }, { passive: true });
+
+          modalElement.addEventListener('touchmove', (e) => {
+            if (!isDragging || !startedOnHandle) return;
+            touchCurrentY = e.touches[0].clientY;
+            const diff = touchCurrentY - touchStartY;
+
+            // Only allow dragging down
+            if (diff > 0) {
+              modalElement.style.transform = `translateY(${diff}px)`;
+            }
+          }, { passive: true });
+
+          modalElement.addEventListener('touchend', () => {
+            if (!isDragging) return;
+            isDragging = false;
+
+            const diff = touchCurrentY - touchStartY;
+            const threshold = 80; // Swipe down more than 80px to close
+
+            if (diff > threshold && startedOnHandle) {
+              // Close the modal
+              overlayElement.classList.remove('active');
+              modalElement.style.transform = '';
+
+              // Reset state based on modal type
+              if (config.id === 'viewModal') {
+                viewingId = null;
+              } else if (config.id === 'addModal') {
+                setTimeout(() => {
+                  editingId = null;
+                  document.getElementById("entryText").value = "";
+                  document.getElementById("previewImage").style.display = "none";
+                  document.getElementById("imageUploadText").textContent = "Add image";
+                  selectedImage = null;
+                  selectedColor = "#F8D789";
+                  selectColor("#F8D789");
+                }, 400);
+              }
+            } else {
+              // Snap back
+              modalElement.style.transform = '';
+            }
+
+            startedOnHandle = false;
+          });
+        });
       }
 
       // View Modal Functions
@@ -2856,8 +2939,12 @@ Generate a personalized insight (1-2 sentences) that shows what this pattern rev
           if (editingId) {
             // Update existing entry
             const existingEntry = entries.find((e) => e.id === editingId);
+            if (!existingEntry) {
+              console.error("Entry not found:", editingId);
+              throw new Error("Entry not found. Please refresh and try again.");
+            }
             entry = {
-              ...existingEntry,
+              id: existingEntry.id,
               text,
               color: selectedColor,
               image: selectedImage,
@@ -2888,7 +2975,7 @@ Generate a personalized insight (1-2 sentences) that shows what this pattern rev
           closeModal();
         } catch (error) {
           console.error("Error saving entry:", error);
-          alert("Failed to save entry. Please try again.");
+          alert(`Failed to save entry: ${error.message || 'Please try again.'}`);
         } finally {
           // Always restore button
           saveBtn.innerHTML = originalText;
@@ -2928,19 +3015,26 @@ Generate a personalized insight (1-2 sentences) that shows what this pattern rev
         }
 
         empty.style.display = "none";
-        grid.style.display = "block";
+        grid.style.display = "grid";
 
-        // Sort by date ascending (oldest first) so newest appears at bottom-right in masonry layout
-        const sortedEntries = [...entries].sort((a, b) => new Date(a.date) - new Date(b.date));
+        // Sort by date descending (newest first) for grid layout - newest top-left, oldest bottom-right
+        const sortedEntries = [...entries].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        console.log(`Rendering ${sortedEntries.length} entries:`, sortedEntries.map(e => ({ id: e.id, date: e.date, text: e.text.substring(0, 20) })));
 
         grid.innerHTML = sortedEntries
           .map(
-            (entry, idx) => `
+            (entry, idx) => {
+              if (!entry || !entry.id || !entry.text || !entry.color) {
+                console.warn('Invalid entry skipped:', entry);
+                return '';
+              }
+              return `
                 <div class="post-it" style="background: ${
                   entry.color
                 }; animation-delay: ${idx * 0.05}s" onclick="viewEntry(${
-              entry.id
-            })">
+                  entry.id
+                })">
                     ${
                       entry.image
                         ? `<img src="${entry.image}" class="post-it-image">`
@@ -2957,7 +3051,8 @@ Generate a personalized insight (1-2 sentences) that shows what this pattern rev
                     </div>
                     <div class="post-it-text">${entry.text}</div>
                 </div>
-            `
+              `;
+            }
           )
           .join("");
       }
