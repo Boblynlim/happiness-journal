@@ -1757,19 +1757,27 @@
           .onSnapshot((snapshot) => {
             const firebaseEntries = [];
             snapshot.forEach((doc) => {
-              firebaseEntries.push(doc.data());
+              const data = doc.data();
+              // Ensure the entry has all required fields including id
+              if (data && data.id && data.text) {
+                firebaseEntries.push(data);
+              }
             });
 
-            // Update local entries
-            entries = firebaseEntries.sort(
-              (a, b) => new Date(a.date) - new Date(b.date)
-            );
+            // Only update if we have entries or if entries array is empty
+            // This prevents race conditions during save
+            if (firebaseEntries.length > 0 || entries.length === 0) {
+              // Update local entries
+              entries = firebaseEntries.sort(
+                (a, b) => new Date(a.date) - new Date(b.date)
+              );
 
-            // Also save to localStorage as backup
-            localStorage.setItem("happinessEntries", JSON.stringify(entries));
+              // Also save to localStorage as backup
+              localStorage.setItem("happinessEntries", JSON.stringify(entries));
 
-            renderEntries();
-            updateCategoriesButton();
+              renderEntries();
+              updateCategoriesButton();
+            }
           });
       }
 
@@ -2821,68 +2829,71 @@ Generate a personalized insight (1-2 sentences) that shows what this pattern rev
         const text = document.getElementById("entryText").value.trim();
         if (!text) return;
 
-        // Show loading state if using AI
+        // Show loading state
         const saveBtn = document.querySelector(".header-save-btn");
         const originalText = saveBtn.innerHTML;
-        if (apiKey) {
-          saveBtn.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 6v6l4 2"></path>
-                    </svg>
-                    Categorizing...
-                `;
-          saveBtn.disabled = true;
-        }
+        const loadingMessage = apiKey ? "Categorizing..." : "Saving...";
 
-        const dateInput = document.getElementById("dateInput").value;
-        const selectedDate = dateInput
-          ? new Date(dateInput + "T12:00:00")
-          : new Date();
+        saveBtn.innerHTML = `
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 6v6l4 2"></path>
+          </svg>
+          ${loadingMessage}
+        `;
+        saveBtn.disabled = true;
 
-        // Get category (with AI if available)
-        const category = await categorizeEntry(text);
+        try {
+          const dateInput = document.getElementById("dateInput").value;
+          const selectedDate = dateInput
+            ? new Date(dateInput + "T12:00:00")
+            : new Date();
 
-        let entry;
-        if (editingId) {
-          // Update existing entry
-          const existingEntry = entries.find((e) => e.id === editingId);
-          entry = {
-            ...existingEntry,
-            text,
-            color: selectedColor,
-            image: selectedImage,
-            category: category,
-            date: selectedDate.toISOString(),
-          };
-        } else {
-          // Create new entry
-          entry = {
-            id: Date.now(),
-            text,
-            color: selectedColor,
-            image: selectedImage,
-            category: category,
-            date: selectedDate.toISOString(),
-          };
-        }
+          // Get category (with AI if available)
+          const category = await categorizeEntry(text);
 
-        // Save to Firebase (or localStorage as fallback)
-        await saveEntryToFirebase(entry);
+          let entry;
+          if (editingId) {
+            // Update existing entry
+            const existingEntry = entries.find((e) => e.id === editingId);
+            entry = {
+              ...existingEntry,
+              text,
+              color: selectedColor,
+              image: selectedImage,
+              category: category,
+              date: selectedDate.toISOString(),
+            };
+          } else {
+            // Create new entry
+            entry = {
+              id: Date.now(),
+              text,
+              color: selectedColor,
+              image: selectedImage,
+              category: category,
+              date: selectedDate.toISOString(),
+            };
+          }
 
-        // If not using Firebase sync, manually update UI
-        if (!db || !currentUser) {
-          renderEntries();
-          updateCategoriesButton();
-        }
+          // Save to Firebase (or localStorage as fallback)
+          await saveEntryToFirebase(entry);
 
-        // Restore button
-        if (apiKey) {
+          // If not using Firebase sync, manually update UI
+          if (!db || !currentUser) {
+            renderEntries();
+            updateCategoriesButton();
+          }
+
+          closeModal();
+        } catch (error) {
+          console.error("Error saving entry:", error);
+          alert("Failed to save entry. Please try again.");
+        } finally {
+          // Always restore button
           saveBtn.innerHTML = originalText;
           saveBtn.disabled = false;
         }
-
-        closeModal();
       }
 
       async function deleteEntry() {
@@ -2919,8 +2930,8 @@ Generate a personalized insight (1-2 sentences) that shows what this pattern rev
         empty.style.display = "none";
         grid.style.display = "block";
 
-        // Sort by date descending (newest first) for display
-        const sortedEntries = [...entries].sort((a, b) => new Date(b.date) - new Date(a.date));
+        // Sort by date ascending (oldest first) so newest appears at bottom-right in masonry layout
+        const sortedEntries = [...entries].sort((a, b) => new Date(a.date) - new Date(b.date));
 
         grid.innerHTML = sortedEntries
           .map(
