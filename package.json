@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "convex": "^1.34.0",
+    "firebase-admin": "^13.7.0"
+  },
+  "name": "journal-happiness",
+  "version": "1.0.0",
+  "main": "service-worker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Boblynlim/happiness-journal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Boblynlim/happiness-journal/issues"
+  },
+  "homepage": "https://github.com/Boblynlim/happiness-journal#readme",
+  "description": ""
+}

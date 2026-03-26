@@ -1,0 +1,10 @@
+.vercel
+.env.local
+.DS_Store
+node_modules/
+firebase-users.json
+happiness-journal-export.json
+.claude/
+.agents/
+skills/
+skills-lock.json
