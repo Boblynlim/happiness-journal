@@ -23,7 +23,8 @@
     <script src="https://unpkg.com/convex@1.21.0/dist/browser.bundle.js"></script>
 
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,wght@0,300;0,400;1,300&family=Courier+Prime:wght@400;700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,wght@0,300;0,400;1,300&family=Courier+Prime:wght@400;700&family=Libre+Baskerville:wght@400;700&display=swap");
+      @import url("https://cdn.jsdelivr.net/gh/alerque/libertinus@master/webfonts/libertinus.css");
 
       @font-face {
         font-family: "Neue Haas Grotesk";
@@ -58,14 +59,14 @@
         --color-accent: #007aff;
         --color-danger: #ff3b30;
 
-        --pink: #fcd1cd;
-        --yellow: #fdea88;
-        --orange: #f0832c;
-        --pistachio: #cbd183;
-        --green: #7cbe59;
-        --blue: #b7d8fe;
-        --purple: #ecddfe;
-        --magenta: #d17089;
+        --pink: #fddbd8;
+        --yellow: #fef0a5;
+        --orange: #f4a36a;
+        --pistachio: #d8dea0;
+        --green: #96ce7a;
+        --blue: #c8e2fe;
+        --purple: #f0e4fe;
+        --magenta: #de8fa3;
         --white: #ffffff;
 
         --radius-sm: 12px;
@@ -95,8 +96,7 @@
       }
 
       body {
-        font-family: "Neue Haas Grotesk", "Inter", -apple-system,
-          BlinkMacSystemFont, sans-serif;
+        font-family: "IBM Plex Mono", monospace;
         background: var(--color-bg);
         color: var(--color-text);
         overflow-x: hidden;
@@ -125,18 +125,28 @@
         max-width: 900px;
         margin: 0 auto;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-        position: relative;
       }
 
       .top-bar h1 {
-        font-family: "Neue Haas Grotesk", "Inter", -apple-system,
-          BlinkMacSystemFont, sans-serif;
-        font-size: 24px;
-        font-weight: 600;
-        letter-spacing: -0.5px;
-        color: var(--color-text);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 18px;
+        font-weight: 700;
+        font-style: normal;
+        letter-spacing: -0.3px;
+        color: #484848;
+        opacity: 0.8;
+      }
+
+      .app-logo {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #FFF3E0, #FFE0B2, #FFCC80);
+        padding: 3px;
+        box-shadow: 0 2px 8px rgba(255, 183, 77, 0.3);
       }
 
       .categories-btn {
@@ -150,8 +160,6 @@
         opacity: 0;
         transform: scale(0.9);
         pointer-events: none;
-        position: absolute;
-        left: 0;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -249,125 +257,363 @@
         animation: fadeIn 0.8s var(--ease-out) 0.2s forwards;
       }
 
-      .empty-state-icon {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 24px;
-        opacity: 0.3;
+      .empty-state-logo {
+        width: 88px;
+        height: 88px;
+        border-radius: 22px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #FFF3E0, #FFE0B2, #FFCC80);
+        padding: 6px;
+        margin-bottom: 28px;
       }
 
       .empty-state h2 {
-        font-size: 24px;
-        font-weight: 600;
-        letter-spacing: -0.5px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 22px;
+        font-weight: 400;
+        font-style: italic;
+        letter-spacing: -0.3px;
         margin-bottom: 8px;
         color: var(--color-text);
       }
 
       .empty-state p {
-        font-size: 16px;
-        color: var(--color-text-secondary);
+        font-size: 14px;
+        color: var(--color-text-tertiary);
         font-weight: 400;
       }
 
-      /* Grid Layout */
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
+      /* Year Timeline */
+      .today-btn {
+        position: fixed;
+        bottom: calc(40px + env(safe-area-inset-bottom));
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 200;
+        background: #2455F3;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 8px 20px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(36, 85, 243, 0.35);
+        transition: opacity 0.25s ease, transform 0.25s var(--spring);
+      }
+      .today-btn:active {
+        transform: translateX(-50%) scale(0.95);
+      }
+
+      .year-timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
         animation: fadeIn 0.8s var(--ease-out) 0.1s both;
       }
 
-      /* Post-it Card */
-      .post-it {
-        border-radius: var(--radius-md);
+      .month-header {
+        position: sticky;
+        top: calc(84px + env(safe-area-inset-top));
+        z-index: 50;
+        padding: 12px 0 4px;
+        background: rgba(245, 245, 245, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+
+      .month-header-label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: lowercase;
+        letter-spacing: 0.5px;
+        color: #b0b0b0;
+      }
+
+      .day-row {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0;
+        align-items: center;
+        padding: 0;
+      }
+
+      /* Every slot is the same size — uniform grid */
+      .day-slot {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 72px;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .day-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--color-text-tertiary);
+        opacity: 0.2;
+        transition: all 0.2s var(--ease-out);
+      }
+
+      .day-slot:hover .day-dot {
+        opacity: 0.45;
+        transform: scale(1.4);
+      }
+
+      .day-dot.today {
+        width: 24px;
+        height: 24px;
+        border-radius: 0;
+        background: transparent;
+        opacity: 1;
+        background-image: url('flower.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        box-shadow: none;
+        filter: drop-shadow(0 0 6px rgba(36, 85, 243, 0.15));
+        animation: none;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Filled day card — fixed size rounded rectangle */
+      .day-card {
+        width: 48px;
+        height: 58px;
+        border-radius: 13px;
+        cursor: pointer;
+        transition: transform 0.2s var(--spring), box-shadow 0.2s var(--ease-out);
+        box-shadow: 0 2px 10px rgba(36, 85, 243, 0.12);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .day-card:active {
+        transform: scale(0.9);
+      }
+
+      /* Scribble lines to suggest text */
+      .day-card-scribbles {
+        padding: 10px 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .day-card-scribbles span {
+        display: block;
+        height: 3px;
+        border-radius: 2px;
+        background: rgba(0, 0, 0, 0.12);
+      }
+
+      .day-card-scribbles span:nth-child(1) { width: 80%; }
+      .day-card-scribbles span:nth-child(2) { width: 60%; }
+      .day-card-scribbles span:nth-child(3) { width: 70%; }
+      .day-card-scribbles span:nth-child(4) { width: 45%; }
+
+      /* Image card */
+      .day-card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Stacked cards — actual entries layered */
+      .day-slot-stack {
+        position: relative;
+      }
+
+      .day-card-stacked {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -29px;
+        margin-left: -24px;
+        transform-origin: center center;
+      }
+
+      /* Fan-out overlay */
+      .fan-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1500;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        opacity: 0;
+        transition: opacity 0.3s var(--ease-out);
+        pointer-events: none;
+      }
+
+      .fan-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .fan-cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 155.5px));
+        gap: 12px;
+        justify-content: center;
         padding: 20px;
-        background: var(--yellow);
+        max-height: 80vh;
+        max-width: calc(100vw - 40px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .fan-card {
+        width: 100%;
+        max-width: 155.5px;
+        height: 200px;
+        border-radius: var(--radius-md);
+        padding: 16px;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(36, 85, 243, 0.12);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s var(--spring), opacity 0.3s var(--ease-out);
+        opacity: 0;
+        transform: translateY(30px) rotate(0deg);
+      }
+
+      .fan-card.show {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
+
+      .fan-card:active {
+        transform: scale(0.96) !important;
+      }
+
+      .fan-card-image {
+        width: calc(100% + 32px);
+        margin: -16px -16px 10px -16px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+      }
+
+      .fan-card-tag {
+        font-size: 10px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.5);
+        margin-bottom: 6px;
+        background: rgba(255, 255, 255, 0.35);
+        padding: 3px 8px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        align-self: flex-start;
+      }
+
+      .fan-card-text {
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 14px;
+        line-height: 1.5;
+        color: rgba(0, 0, 0, 0.85);
+        flex: 1;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+      }
+
+      @keyframes jiggle {
+        0%, 100% { transform: translateY(0) rotate(var(--fan-rot, 0deg)); }
+        25% { transform: translateY(-3px) rotate(calc(var(--fan-rot, 0deg) + 1deg)); }
+        75% { transform: translateY(2px) rotate(calc(var(--fan-rot, 0deg) - 1deg)); }
+      }
+
+      .fan-card.jiggle {
+        animation: jiggle 0.4s var(--spring);
+      }
+
+      /* Post-it cards (used in categories modal) */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      .post-it {
+        border-radius: 14px;
+        padding: 0;
         position: relative;
         cursor: pointer;
-        transition: transform 0.3s var(--spring),
-          box-shadow 0.3s var(--ease-out);
-        box-shadow: var(--shadow-sm);
-        animation: cardIn 0.6s var(--spring) both;
         height: 200px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transition: transform 0.2s var(--spring);
+      }
+
+      .post-it:active {
+        transform: scale(0.97);
+      }
+
+      .post-it-image {
+        width: 100%;
+        margin: 0;
+        height: 90px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .post-it-body {
+        padding: 10px 12px 12px;
+        flex: 1;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
       }
 
-      .post-it:nth-child(1) {
-        animation-delay: 0.1s;
-      }
-      .post-it:nth-child(2) {
-        animation-delay: 0.15s;
-      }
-      .post-it:nth-child(3) {
-        animation-delay: 0.2s;
-      }
-      .post-it:nth-child(4) {
-        animation-delay: 0.25s;
-      }
-      .post-it:nth-child(5) {
-        animation-delay: 0.3s;
-      }
-      .post-it:nth-child(6) {
-        animation-delay: 0.35s;
-      }
-      .post-it:nth-child(n + 7) {
-        animation-delay: 0.4s;
-      }
-
-      .post-it:hover {
-        transform: translateY(-4px);
-        box-shadow: var(--shadow-md);
-      }
-
-      .post-it:active {
-        transform: scale(0.98);
-      }
-
-      .post-it-image {
-        width: calc(100% + 40px);
-        margin: -20px -20px 12px -20px;
-        height: 120px;
-        object-fit: cover;
-        border-radius: var(--radius-md) var(--radius-md) 0 0;
-        flex-shrink: 0;
-      }
-
       .post-it-text {
         font-family: "Newsreader", Georgia, serif;
-        font-size: 15px;
-        line-height: 1.6;
-        color: rgba(0, 0, 0, 0.85);
-        font-weight: 400;
-        flex: 1;
+        font-size: 13px;
+        line-height: 1.45;
+        color: rgba(0, 0, 0, 0.8);
         overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         text-overflow: ellipsis;
-        min-height: 0;
       }
 
       .post-it-footer {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        font-size: 12px;
-        color: rgba(0, 0, 0, 0.4);
+        gap: 6px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 9px;
+        color: rgba(0, 0, 0, 0.35);
         font-weight: 500;
-        margin-bottom: 12px;
+        margin-bottom: 6px;
         flex-shrink: 0;
       }
 
       .post-it-category {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 4px 10px;
+        font-size: 9px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.35);
+        background: rgba(255, 255, 255, 0.4);
+        padding: 2px 6px;
         border-radius: 999px;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.2px;
-        color: rgba(0, 0, 0, 0.6);
       }
 
       /* FAB Button - Hidden */
@@ -401,9 +647,10 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background: #e8e8e8;
+        background: #f2f2f2;
         border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-        max-height: 90vh;
+        max-height: 100vh;
+        height: 100vh;
         overflow-y: auto;
         overflow-x: hidden;
         z-index: 2001;
@@ -430,7 +677,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: #e8e8e8;
+        background: #f2f2f2;
       }
 
       @media (max-width: 400px) {
@@ -440,10 +687,13 @@
       }
 
       .modal-title {
-        font-size: 22px;
-        font-weight: 600;
-        letter-spacing: -0.5px;
-        color: var(--color-text);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 18px;
+        font-weight: 700;
+        font-style: normal;
+        letter-spacing: -0.3px;
+        color: #484848;
+        opacity: 0.8;
       }
 
       .header-save-btn {
@@ -576,6 +826,7 @@
       }
 
       .note-preview textarea::placeholder {
+        font-family: "Newsreader", Georgia, serif;
         color: rgba(0, 0, 0, 0.3);
         font-style: italic;
         font-weight: 300;
@@ -644,7 +895,7 @@
         background: var(--color-bg);
         border: 1px solid var(--color-text-tertiary);
         border-radius: var(--radius-sm);
-        font-family: "Inter", sans-serif;
+        font-family: "IBM Plex Mono", monospace;
         font-size: 14px;
         color: var(--color-text);
         cursor: pointer;
@@ -829,41 +1080,58 @@
       }
 
       .category-group {
-        margin-bottom: 32px;
+        margin-bottom: 28px;
       }
 
       .category-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 16px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        margin-bottom: 10px;
+        padding-bottom: 0;
+        border-bottom: none;
       }
 
       .category-name {
-        font-size: 20px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
         font-weight: 600;
-        letter-spacing: -0.3px;
+        letter-spacing: 0.2px;
+        color: #484848;
+        background: #EDE7F6;
+        padding: 5px 12px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
       }
 
+      .category-group:nth-child(2) .category-name { background: #E3F2FD; }
+      .category-group:nth-child(3) .category-name { background: #FFF3E0; }
+      .category-group:nth-child(4) .category-name { background: #E8F5E9; }
+      .category-group:nth-child(5) .category-name { background: #FCE4EC; }
+      .category-group:nth-child(6) .category-name { background: #FFF8E1; }
+      .category-group:nth-child(7) .category-name { background: #E0F7FA; }
+
       .category-count {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--color-accent);
-        background: rgba(0, 122, 255, 0.1);
-        padding: 4px 12px;
-        border-radius: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        font-weight: 500;
+        color: #484848;
+        background: rgba(0, 0, 0, 0.04);
+        padding: 5px 12px;
+        border-radius: 999px;
       }
 
       .category-summary {
-        background: rgba(0, 0, 0, 0.03);
-        padding: 16px;
-        border-radius: 12px;
-        margin-bottom: 16px;
-        font-size: 14px;
-        line-height: 1.6;
-        color: var(--color-text-secondary);
+        background: none;
+        border: none;
+        padding: 0 0 12px;
+        margin-bottom: 0;
+        font-family: "Newsreader", Georgia, serif;
+        font-size: 13px;
+        line-height: 1.5;
+        color: #666;
         font-style: italic;
       }
 
@@ -937,100 +1205,126 @@
         }
       }
 
-      /* View Overlay - Centered Modal */
+      /* View Overlay - Floating components, no bg */
       #viewModal .modal {
         position: fixed;
-        top: 50%;
-        left: 50%;
-        right: auto;
-        bottom: auto;
-        transform: translate(-50%, -50%) scale(0.9);
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transform: none;
         opacity: 0;
-        max-width: 500px;
-        width: 90%;
-        border-radius: var(--radius-xl);
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
         padding: 0;
-        max-height: 90vh;
-        overflow-y: auto;
-        background: white;
+        overflow: hidden;
+        background: transparent;
+        box-shadow: none;
+        border: none;
       }
 
       #viewModal.active .modal {
-        transform: translate(-50%, -50%) scale(1);
+        transform: none;
         opacity: 1;
-        transition: all 0.3s var(--ease-out);
+        transition: opacity 0.3s var(--ease-out);
       }
 
       .view-modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        padding: 24px 24px 20px;
-        background: white;
+        display: none;
       }
 
       .view-modal-title {
-        font-size: 24px;
-        font-weight: 600;
-        color: var(--color-text);
-        letter-spacing: -0.5px;
+        display: none;
       }
 
       .edit-icon-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
+        display: none;
+      }
+
+      .view-post-it-container {
+        position: absolute;
+        inset: 0;
+        padding: 16px 20px;
+        padding-top: calc(env(safe-area-inset-top) + 16px);
+        padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
         background: transparent;
+        max-width: 500px;
+        margin: 0 auto;
+        height: 100%;
+        box-sizing: border-box;
+        transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
+      }
+
+      /* When no image, center the note */
+      .view-post-it-container.no-image {
+        justify-content: center;
+      }
+
+      .view-close-btn {
+        position: absolute;
+        top: calc(env(safe-area-inset-top) + 12px);
+        right: 16px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
         border: none;
+        background: rgba(0, 0, 0, 0.25);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        color: white;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: all 0.2s var(--ease-out);
+        z-index: 10;
+        transition: background 0.2s;
       }
 
-      .edit-icon-btn:hover {
-        transform: scale(1.1);
-        background: rgba(0, 0, 0, 0.05);
+      .view-close-btn:hover {
+        background: rgba(0, 0, 0, 0.4);
       }
 
-      .edit-icon-btn svg {
-        color: var(--color-text);
-        stroke: var(--color-text);
-      }
-
-      .view-post-it-container {
-        padding: 0 24px 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        background: white;
-      }
 
       .view-image-section {
-        border: 8px solid white;
-        border-radius: var(--radius-lg);
+        border: 6px solid rgba(255, 255, 255, 0.8);
+        border-radius: 20px;
         overflow: hidden;
-        box-shadow: var(--shadow-md);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
         cursor: pointer;
         transition: transform 0.2s var(--ease-out);
+        height: 35vh;
+        flex-shrink: 0;
       }
 
       .view-image-section:hover {
-        transform: scale(1.02);
+        transform: scale(1.01);
       }
 
       .view-post-it {
-        background: var(--yellow);
-        border-radius: var(--radius-lg);
-        padding: 20px;
+        border-radius: 20px;
+        padding: 16px 18px;
         position: relative;
-        min-height: 250px;
-        max-height: 450px;
+        height: 35vh;
+        flex-shrink: 0;
+        max-height: none;
         display: flex;
         flex-direction: column;
-        box-shadow: var(--shadow-sm);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         border: 1px solid transparent;
+      }
+
+      .view-post-it-container.no-image .view-post-it {
+        height: auto;
+        min-height: 0;
+        max-height: 70vh;
+        aspect-ratio: 1 / 1;
+        width: 100%;
       }
 
       .view-post-it.white-note {
@@ -1044,40 +1338,42 @@
         background: url('data:image/svg+xml,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.03"/></svg>');
         pointer-events: none;
         opacity: 0.5;
-        border-radius: var(--radius-lg);
+        border-radius: 20px;
       }
 
       .view-post-it-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 16px;
+        margin-bottom: 10px;
         gap: 12px;
         position: relative;
         z-index: 1;
       }
 
       .view-post-it-date {
-        font-size: 12px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
         font-weight: 500;
-        color: rgba(0, 0, 0, 0.5);
+        color: rgba(0, 0, 0, 0.4);
       }
 
       .view-post-it-category {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 4px 10px;
+        background: rgba(255, 255, 255, 0.35);
+        padding: 3px 9px;
         border-radius: 999px;
-        font-size: 11px;
-        font-weight: 600;
-        color: rgba(0, 0, 0, 0.6);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        font-weight: 500;
+        color: #484848;
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 3px;
       }
 
       .view-post-it-image {
         width: 100%;
-        height: 350px;
+        height: 100%;
         object-fit: cover;
         display: block;
       }
@@ -1087,15 +1383,39 @@
         overflow-y: auto;
         position: relative;
         z-index: 1;
+        min-height: 0;
       }
 
       .view-note-text {
         font-family: "Newsreader", Georgia, serif;
-        font-size: 17px;
-        line-height: 1.6;
-        color: rgba(0, 0, 0, 0.85);
+        font-size: 15px;
+        line-height: 1.5;
+        color: rgba(0, 0, 0, 0.8);
         white-space: pre-wrap;
         word-wrap: break-word;
+      }
+
+      .view-edit-btn {
+        flex-shrink: 0;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        opacity: 1;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        font-weight: 600;
+        color: #484848;
+        cursor: pointer;
+        transition: all 0.2s var(--ease-out);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      }
+
+      .view-edit-btn:active {
+        transform: scale(0.97);
       }
 
       /* Scrollbar */
@@ -1149,7 +1469,7 @@
         background: var(--color-bg);
         border: 1px solid var(--color-text-tertiary);
         border-radius: var(--radius-sm);
-        font-family: "Courier Prime", monospace;
+        font-family: "IBM Plex Mono", monospace;
         font-size: 13px;
         color: var(--color-text);
         transition: all 0.2s var(--ease-out);
@@ -1257,13 +1577,146 @@
       .info-box a:hover {
         text-decoration: underline;
       }
+      /* Pattern Lock Screen */
+      .lock-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 9999;
+        background: #2c2c2c;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .lock-screen.unlocked {
+        opacity: 0;
+        transform: scale(1.1);
+        pointer-events: none;
+      }
+
+      .lock-logo {
+        width: 72px;
+        height: 72px;
+        border-radius: 18px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #FFF3E0, #FFE0B2, #FFCC80);
+        padding: 5px;
+        box-shadow: 0 4px 24px rgba(255, 183, 77, 0.35);
+      }
+
+      .lock-title {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 22px;
+        font-weight: 400;
+        font-style: normal;
+        color: #f5f5f5;
+        letter-spacing: -0.3px;
+      }
+
+      .lock-subtitle {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        color: #999;
+        margin-top: -20px;
+        transition: all 0.3s ease;
+      }
+
+      .lock-subtitle.error {
+        color: #ff6b6b;
+        animation: headShake 0.5s ease;
+      }
+
+      .lock-subtitle.success {
+        color: #96ce7a;
+      }
+
+      @keyframes headShake {
+        0%, 100% { transform: translateX(0); }
+        15%, 45%, 75% { transform: translateX(-6px); }
+        30%, 60%, 90% { transform: translateX(6px); }
+      }
+
+      .pattern-grid {
+        position: relative;
+        width: 240px;
+        height: 240px;
+        touch-action: none;
+      }
+
+      .pattern-grid canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      .pattern-dot {
+        position: absolute;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: #3a3a3a;
+        border: 2px solid #555;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 16px;
+        font-weight: 400;
+        color: #888;
+        user-select: none;
+      }
+
+      .pattern-dot.active {
+        background: #FFCC80;
+        border-color: #FFB74D;
+        box-shadow: 0 0 16px rgba(255, 183, 77, 0.5);
+        transform: translate(-50%, -50%) scale(1.15);
+        color: #5a3e00;
+      }
+
+      .pattern-dot.error {
+        background: #ff6b6b;
+        border-color: #ff4444;
+        box-shadow: 0 0 16px rgba(255, 68, 68, 0.5);
+        color: #500;
+      }
+
+      .pattern-dot.success {
+        background: #96ce7a;
+        border-color: #84bc68;
+        box-shadow: 0 0 16px rgba(150, 206, 122, 0.5);
+        color: #1a3a00;
+      }
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
+    <!-- Pattern Lock Screen -->
+    <div class="lock-screen" id="lockScreen">
+      <img src="star.png" alt="logo" class="lock-logo" />
+      <div class="lock-title">What makes me happy</div>
+      <div class="lock-subtitle" id="lockSubtitle">Draw pattern to unlock</div>
+      <div class="pattern-grid" id="patternGrid">
+        <canvas id="patternCanvas"></canvas>
+      </div>
+    </div>
+
     <!-- Top Bar -->
     <div class="top-bar">
       <div class="top-bar-content">
+        <h1>What makes me happy</h1>
         <button
           class="categories-btn"
           id="categoriesBtn"
@@ -1283,76 +1736,25 @@
             <rect x="3" y="14" width="7" height="7"></rect>
           </svg>
         </button>
-        <h1>What makes me happy</h1>
-        <button class="add-btn" onclick="openModal()">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-        </button>
       </div>
     </div>
+
+    <!-- Today Button -->
+    <button class="today-btn" id="todayBtn" onclick="scrollToToday()">scroll to today</button>
 
     <!-- Main Container -->
     <div class="container">
-      <!-- Empty State -->
-      <div id="emptyState" class="empty-state">
-        <svg
-          class="empty-state-icon"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-          ></path>
-        </svg>
-        <h2>Your story begins</h2>
-        <p>Capture moments that bring you joy</p>
-      </div>
+      <!-- Year Timeline -->
+      <div id="yearTimeline" class="year-timeline"></div>
 
-      <!-- Grid -->
-      <div id="grid" class="grid" style="display: none"></div>
+      <!-- Fan-out overlay for stacked entries -->
+      <div id="fanOverlay" class="fan-overlay" onclick="closeFan(event)">
+        <div id="fanCards" class="fan-cards"></div>
+      </div>
 
     </div>
 
-    <!-- FAB -->
-    <button class="fab" onclick="openModal()">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12 4v16m8-8H4"
-        ></path>
-      </svg>
-    </button>
 
-    <!-- Floating Settings Button -->
-    <button class="settings-btn" id="settingsBtn" onclick="openSettings()">
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <circle cx="12" cy="12" r="3"></circle>
-        <path
-          d="M12 1v6m0 6v6m5.2-13.2-4.2 4.2m-4.2 4.2L4.6 18.4M23 12h-6m-6 0H5m13.2 5.2-4.2-4.2m-4.2-4.2L5.6 4.6"
-        ></path>
-      </svg>
-    </button>
 
     <!-- View Note Modal -->
     <div
@@ -1360,39 +1762,28 @@
       class="modal-overlay"
       onclick="handleOverlayClick(event)"
     >
-      <div class="modal">
-        <div class="view-modal-header">
-          <h2 class="view-modal-title">Your moment</h2>
-          <button class="edit-icon-btn" onclick="enterEditMode()">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path
-                d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"
-              ></path>
+      <div class="modal" onclick="closeViewModal()">
+        <div class="view-post-it-container" onclick="closeViewModal()">
+          <!-- Close Button -->
+          <button class="view-close-btn" onclick="event.stopPropagation(); closeViewModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
-        </div>
-        <div class="view-post-it-container">
+
           <!-- Image Section -->
           <div
             class="view-image-section"
             id="viewImageSection"
             style="display: none"
-            onclick="viewFullImage()"
+            onclick="event.stopPropagation(); viewFullImage()"
           >
             <img id="viewImage" class="view-post-it-image" />
           </div>
 
           <!-- Post-it with Date, Tag, and Text -->
-          <div class="view-post-it" id="viewPostIt">
+          <div class="view-post-it" id="viewPostIt" onclick="event.stopPropagation()">
             <div class="view-post-it-header">
               <div class="view-post-it-date" id="viewDate"></div>
               <div class="view-post-it-category" id="viewCategory"></div>
@@ -1401,6 +1792,9 @@
               <div class="view-note-text" id="viewNoteText"></div>
             </div>
           </div>
+
+          <!-- Edit Button -->
+          <button class="view-edit-btn" onclick="event.stopPropagation(); enterEditMode()">edit</button>
         </div>
       </div>
     </div>
@@ -1457,43 +1851,43 @@
               <div class="color-picker">
                 <div
                   class="color-option"
-                  style="background: #fcd1cd"
-                  onclick="selectColor('#fcd1cd')"
+                  style="background: #fddbd8"
+                  onclick="selectColor('#fddbd8')"
                 ></div>
                 <div
                   class="color-option selected"
-                  style="background: #fdea88"
-                  onclick="selectColor('#FDEA88')"
+                  style="background: #fef0a5"
+                  onclick="selectColor('#fef0a5')"
                 ></div>
                 <div
                   class="color-option"
-                  style="background: #f0832c"
-                  onclick="selectColor('#f0832c')"
+                  style="background: #f4a36a"
+                  onclick="selectColor('#f4a36a')"
                 ></div>
                 <div
                   class="color-option"
-                  style="background: #cbd183"
-                  onclick="selectColor('#CBD183')"
+                  style="background: #d8dea0"
+                  onclick="selectColor('#d8dea0')"
                 ></div>
                 <div
                   class="color-option"
-                  style="background: #7cbe59"
-                  onclick="selectColor('#7cbe59')"
+                  style="background: #96ce7a"
+                  onclick="selectColor('#96ce7a')"
                 ></div>
                 <div
                   class="color-option"
-                  style="background: #b7d8fe"
-                  onclick="selectColor('#b7d8fe')"
+                  style="background: #c8e2fe"
+                  onclick="selectColor('#c8e2fe')"
                 ></div>
                 <div
                   class="color-option"
-                  style="background: #ecddfe"
-                  onclick="selectColor('#ecddfe')"
+                  style="background: #f0e4fe"
+                  onclick="selectColor('#f0e4fe')"
                 ></div>
                 <div
                   class="color-option"
-                  style="background: #d17089"
-                  onclick="selectColor('#d17089')"
+                  style="background: #de8fa3"
+                  onclick="selectColor('#de8fa3')"
                 ></div>
                 <div
                   class="color-option"
@@ -1607,6 +2001,7 @@
             color: e.color,
             image: e.image || null,
             category: e.category,
+            tag: e.tag || null,
             date: e.date,
           }));
           renderEntries();
@@ -1631,6 +2026,7 @@
               color: entry.color,
               image: entry.image || null,
               category: entry.category,
+              tag: entry.tag || undefined,
               date: entry.date,
             });
           } else {
@@ -1640,6 +2036,7 @@
               color: entry.color,
               image: entry.image || null,
               category: entry.category,
+              tag: entry.tag || undefined,
               date: entry.date,
             });
             entry.id = newId;
@@ -1902,52 +2299,67 @@
         ],
       };
 
-      const categoryEmojis = {
-        // New value-based categories
-        "love & connection": "💕",
-        "belonging & community": "👨‍👩‍👧‍👦",
-        "growth & mastery": "💪",
-        "presence & wonder": "✨",
-        "creative expression": "🎨",
-        "vitality & strength": "🏃‍♀️",
-        "sanctuary & ease": "🏡",
-        "purpose & contribution": "🎯",
-        "celebration & joy": "🎉",
-        "self-discovery": "🌱",
-        "care & generosity": "💝",
-        "culinary pleasure": "🍜",
-        "stories & narrative": "📖",
-        "simple pleasures": "☕",
-
-        // Backward compatibility for old category names
-        "friends & social": "👨‍👩‍👧‍👦",
-        "family time": "👨‍👩‍👧‍👦",
-        "love & romance": "💕",
-        "food & dining": "🍜",
-        "coffee & tea": "☕",
-        "pets & animals": "🐾",
-        "health & fitness": "🏃‍♀️",
-        "rest & sleep": "🏡",
-        "nature & outdoors": "🌳",
-        "weather & seasons": "☀️",
-        "reading & books": "📖",
-        music: "🎵",
-        "movies & tv": "📖",
-        gaming: "🎮",
-        "art & creativity": "🎨",
-        "learning & growth": "💪",
-        "work & career": "💼",
-        achievements: "🏆",
-        "travel & adventure": "✈️",
-        shopping: "💝",
-        "laughter & fun": "🎉",
-        "self care": "💆",
-        "home & comfort": "🏡",
-        "everyday joy": "✨",
+      const TAG_INFO = {
+        "growth": { emoji: "🌱", label: "Growth" },
+        "good-company": { emoji: "💕", label: "Good Company" },
+        "cared-for": { emoji: "🧡", label: "Cared For" },
+        "made-something": { emoji: "🎨", label: "Made Something" },
+        "first-times": { emoji: "✨", label: "First Times" },
+        "me-time": { emoji: "🧖‍♀️", label: "Me Time" },
+        "my-space": { emoji: "🏠", label: "My Space" },
+        "yums": { emoji: "🍜", label: "Yums" },
+        "good-times": { emoji: "😂", label: "Good Times" },
+        "grateful": { emoji: "🥹", label: "Grateful" },
+        "nature": { emoji: "🌿", label: "Nature" },
       };
 
+      // Legacy category → tag mapping for old entries
+      const legacyCategoryToTag = {
+        "love & connection": "good-company",
+        "belonging & community": "good-company",
+        "growth & mastery": "growth",
+        "presence & wonder": "grateful",
+        "creative expression": "made-something",
+        "vitality & strength": "growth",
+        "sanctuary & ease": "me-time",
+        "purpose & contribution": "growth",
+        "celebration & joy": "good-times",
+        "self-discovery": "growth",
+        "care & generosity": "cared-for",
+        "culinary pleasure": "yums",
+        "stories & narrative": "me-time",
+        "simple pleasures": "grateful",
+        "friends & social": "good-company",
+        "family time": "good-company",
+        "love & romance": "good-company",
+        "food & dining": "yums",
+        "nature & outdoors": "nature",
+        "travel & adventure": "first-times",
+        "home & comfort": "my-space",
+        "laughter & fun": "good-times",
+        "self care": "me-time",
+      };
+
+      function getTagForEntry(entry) {
+        if (entry.tag && TAG_INFO[entry.tag]) return entry.tag;
+        // Fall back to legacy category mapping
+        const mapped = legacyCategoryToTag[entry.category?.toLowerCase()];
+        return mapped || "grateful";
+      }
+
+      function getTagEmoji(tagId) {
+        return TAG_INFO[tagId]?.emoji || "✨";
+      }
+
+      function getTagLabel(tagId) {
+        return TAG_INFO[tagId]?.label || "Grateful";
+      }
+
       function getCategoryEmoji(category) {
-        return categoryEmojis[category.toLowerCase()] || "✨";
+        // Support both new tags and legacy categories
+        if (TAG_INFO[category]) return TAG_INFO[category].emoji;
+        const mapped = legacyCategoryToTag[category?.toLowerCase()];
+        return TAG_INFO[mapped]?.emoji || "✨";
       }
 
       // Social context words that signal the joy is about people, not the activity
@@ -2275,12 +2687,15 @@
           let isDragging = false;
           let startedOnHandle = false;
 
+          const isViewModal = config.id === "viewModal";
+
           modalElement.addEventListener(
             "touchstart",
             (e) => {
               // Check if touch started on modal handle or header
               const target = e.target;
               startedOnHandle =
+                isViewModal ||
                 target.classList.contains("modal-handle") ||
                 target.classList.contains("modal-header") ||
                 target.closest(".modal-handle") ||
@@ -2293,6 +2708,10 @@
             { passive: true }
           );
 
+          const dragTarget = isViewModal
+            ? modalElement.querySelector(".view-post-it-container")
+            : modalElement;
+
           modalElement.addEventListener(
             "touchmove",
             (e) => {
@@ -2302,7 +2721,10 @@
 
               // Only allow dragging down
               if (diff > 0) {
-                modalElement.style.transform = `translateY(${diff}px)`;
+                dragTarget.style.transform = `translateY(${diff}px)`;
+                if (isViewModal) {
+                  dragTarget.style.opacity = Math.max(0.3, 1 - diff / 400);
+                }
               }
             },
             { passive: true }
@@ -2318,7 +2740,8 @@
             if (diff > threshold && startedOnHandle) {
               // Close the modal
               overlayElement.classList.remove("active");
-              modalElement.style.transform = "";
+              dragTarget.style.transform = "";
+              if (isViewModal) dragTarget.style.opacity = "";
 
               // Reset state based on modal type
               if (config.id === "viewModal") {
@@ -2333,12 +2756,13 @@
                     "Add image";
                   selectedImage = null;
                   selectedColor = "#F3E874";
-                  selectColor("#F3E874");
+                  selectColor("#fef0a5");
                 }, 400);
               }
             } else {
               // Snap back
-              modalElement.style.transform = "";
+              dragTarget.style.transform = "";
+              if (isViewModal) dragTarget.style.opacity = "";
             }
 
             startedOnHandle = false;
@@ -2361,10 +2785,10 @@
           day: "numeric",
           year: "numeric",
         });
-        const viewCat = entry.category || "Simple Pleasures";
+        const viewTag = getTagForEntry(entry);
         document.getElementById(
           "viewCategory"
-        ).textContent = `${getCategoryEmoji(viewCat)} ${viewCat.toLowerCase()}`;
+        ).textContent = `${getTagEmoji(viewTag)} ${getTagLabel(viewTag).toLowerCase()}`;
 
         const viewPostIt = document.getElementById("viewPostIt");
         viewPostIt.style.background = entry.color;
@@ -2379,11 +2803,14 @@
         // Handle image section
         const viewImgSection = document.getElementById("viewImageSection");
         const viewImg = document.getElementById("viewImage");
+        const container = document.querySelector("#viewModal .view-post-it-container");
         if (entry.image) {
           viewImg.src = entry.image;
           viewImgSection.style.display = "block";
+          container.classList.remove("no-image");
         } else {
           viewImgSection.style.display = "none";
+          container.classList.add("no-image");
         }
 
         document.getElementById("viewModal").classList.add("active");
@@ -2417,7 +2844,7 @@
         }, 100); // Reduced timeout
       }
 
-      function openModal(entryId = null) {
+      function openModal(entryId = null, prefillDate = null) {
         editingId = entryId;
 
         if (entryId) {
@@ -2454,9 +2881,9 @@
           selectedImage = null;
           document.getElementById("previewImage").style.display = "none";
           document.getElementById("imageUploadText").textContent = "Add image";
-          const today = new Date().toISOString().split("T")[0];
-          document.getElementById("dateInput").value = today;
-          selectColor("#F3E874");
+          const dateVal = prefillDate || new Date().toISOString().split("T")[0];
+          document.getElementById("dateInput").value = dateVal;
+          selectColor("#fef0a5");
         }
 
         document.getElementById("addModal").classList.add("active");
@@ -2474,7 +2901,7 @@
           document.getElementById("imageUploadText").textContent = "Add image";
           selectedImage = null;
           selectedColor = "#F3E874";
-          selectColor("#F3E874");
+          selectColor("#fef0a5");
         }, 400);
       }
 
@@ -2495,31 +2922,35 @@
         });
       }
 
-      function compressImage(file, maxWidth = 800, quality = 0.7) {
+      function compressImage(file, targetSizeKB = 200) {
         return new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = (e) => {
             const img = new Image();
             img.onload = () => {
-              // Calculate new dimensions
-              let width = img.width;
-              let height = img.height;
+              // Keep original dimensions
+              const canvas = document.createElement("canvas");
+              canvas.width = img.width;
+              canvas.height = img.height;
+              const ctx = canvas.getContext("2d");
+              ctx.drawImage(img, 0, 0);
 
-              if (width > maxWidth) {
-                height = (height * maxWidth) / width;
-                width = maxWidth;
+              // Prefer WebP (smaller at same quality), fall back to JPEG
+              const supportsWebP = canvas.toDataURL("image/webp").startsWith("data:image/webp");
+              const format = supportsWebP ? "image/webp" : "image/jpeg";
+
+              // Step down quality until under target size or min quality floor
+              let quality = 0.85;
+              let result = canvas.toDataURL(format, quality);
+
+              while (quality > 0.4) {
+                const sizeKB = Math.round((result.length * 3) / 4 / 1024);
+                if (sizeKB <= targetSizeKB) break;
+                quality -= 0.05;
+                result = canvas.toDataURL(format, quality);
               }
 
-              // Create canvas and compress
-              const canvas = document.createElement("canvas");
-              canvas.width = width;
-              canvas.height = height;
-              const ctx = canvas.getContext("2d");
-              ctx.drawImage(img, 0, 0, width, height);
-
-              // Convert to compressed base64
-              const compressedDataUrl = canvas.toDataURL("image/jpeg", quality);
-              resolve(compressedDataUrl);
+              resolve(result);
             };
             img.onerror = reject;
             img.src = e.target.result;
@@ -2534,7 +2965,7 @@
         if (file) {
           try {
             // Compress image before storing
-            selectedImage = await compressImage(file, 800, 0.7);
+            selectedImage = await compressImage(file, 200);
             const img = document.getElementById("previewImage");
             img.src = selectedImage;
             img.style.display = "block";
@@ -2571,7 +3002,16 @@
             ? new Date(dateInput + "T12:00:00")
             : new Date();
 
-          const category = categorizeEntry(text);
+          // Auto-tag with AI
+          let tag;
+          try {
+            tag = await convexClient.action("autoTag:tagEntry", { text });
+          } catch (e) {
+            console.error("Auto-tag failed, using fallback:", e);
+            tag = "grateful";
+          }
+
+          const category = getTagLabel(tag);
 
           let entry;
           if (editingId) {
@@ -2587,6 +3027,7 @@
               color: selectedColor,
               image: selectedImage,
               category: category,
+              tag: tag,
               date: selectedDate.toISOString(),
             };
           } else {
@@ -2597,6 +3038,7 @@
               color: selectedColor,
               image: selectedImage,
               category: category,
+              tag: tag,
               date: selectedDate.toISOString(),
             };
           }
@@ -2642,60 +3084,143 @@
       }
 
       function renderEntries() {
-        const grid = document.getElementById("grid");
-        const empty = document.getElementById("emptyState");
+        const timeline = document.getElementById("yearTimeline");
+        const now = new Date();
+        const year = now.getFullYear();
 
-        if (entries.length === 0) {
-          grid.style.display = "none";
-          empty.style.display = "flex";
-          return;
+        // Build a map of date string -> entries
+        const entryMap = {};
+        entries.forEach((e) => {
+          if (!e || !e.id || !e.text) return;
+          const key = e.date.split("T")[0];
+          if (!entryMap[key]) entryMap[key] = [];
+          entryMap[key].push(e);
+        });
+
+        const todayStr = now.toISOString().split("T")[0];
+        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+        function cardContent(e) {
+          if (e.image) {
+            return `<img src="${e.image}" class="day-card-img" />`;
+          }
+          return `<div class="day-card-scribbles">
+            <span></span><span></span><span></span><span></span>
+          </div>`;
         }
 
-        empty.style.display = "none";
-        grid.style.display = "grid";
+        let html = "";
+        // Go month by month, Jan → Dec
+        for (let m = 0; m <= 11; m++) {
+          const daysInMonth = new Date(year, m + 1, 0).getDate();
 
-        // Sort by date descending (newest first) for grid layout - newest top-left, oldest bottom-right
-        const sortedEntries = [...entries].sort(
-          (a, b) => new Date(b.date) - new Date(a.date)
-        );
+          html += `<div class="month-header"><span class="month-header-label">${months[m].toLowerCase()}</span></div>`;
 
-        grid.innerHTML = sortedEntries
-          .map((entry, idx) => {
-            if (!entry || !entry.id || !entry.text) {
-              console.warn("Invalid entry skipped:", entry);
-              return "";
+          // Days oldest first within each month
+          const daySlots = [];
+          for (let d = 1; d <= daysInMonth; d++) {
+            const dateStr = `${year}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+            const dayEntries = entryMap[dateStr] || [];
+            const isToday = dateStr === todayStr;
+
+            if (dayEntries.length === 0) {
+              daySlots.push({ empty: true, html: `<div class="day-slot" onclick="openModal(null, '${dateStr}')" title="${months[m]} ${d}">
+                <div class="day-dot${isToday ? ' today' : ''}"></div>
+              </div>` });
+            } else if (dayEntries.length === 1) {
+              const e = dayEntries[0];
+              const color = e.color || "#F3E874";
+              const rot = (Math.random() * 8 - 4).toFixed(1);
+              daySlots.push({ empty: false, html: `<div class="day-slot" onclick="viewEntry('${e.id}')" title="${months[m]} ${d}">
+                <div class="day-card" style="background: ${color}; rotate: ${rot}deg">
+                  ${cardContent(e)}
+                </div>
+              </div>` });
+            } else {
+              const ids = dayEntries.map((e) => e.id).join(",");
+              // Render actual stacked cards — bottom card first, top card on top
+              let stackHtml = `<div class="day-slot day-slot-stack" onclick="openFan('${ids}')" title="${months[m]} ${d}">`;
+              for (let si = dayEntries.length - 1; si >= 0; si--) {
+                const e = dayEntries[si];
+                const color = e.color || "#F3E874";
+                const rot = si === 0 ? (Math.random() * 4 - 2).toFixed(1) : (si % 2 === 0 ? (6 + Math.random() * 4).toFixed(1) : (-6 - Math.random() * 4).toFixed(1));
+                const zIdx = dayEntries.length - si;
+                stackHtml += `<div class="day-card day-card-stacked" style="background: ${color}; rotate: ${rot}deg; z-index: ${zIdx}">
+                  ${cardContent(e)}
+                </div>`;
+              }
+              stackHtml += `</div>`;
+              daySlots.push({ empty: false, html: stackHtml });
             }
-            const color = entry.color || "#F3E874";
-            const category = entry.category || "Simple Pleasures";
-            return `
-                      <div class="post-it" style="background: ${
-                        color
-                      }; animation-delay: ${idx * 0.05}s" onclick="viewEntry('${
-              entry.id
-            }')">
-                          ${
-                            entry.image
-                              ? `<img src="${entry.image}" class="post-it-image">`
-                              : ""
-                          }
-                          <div class="post-it-footer">
-                              <span>${new Date(entry.date).toLocaleDateString(
-                                "en-US",
-                                {
-                                  month: "short",
-                                  day: "numeric",
-                                  year: "numeric",
-                                }
-                              )}</span>
-                              <span class="post-it-category">${getCategoryEmoji(
-                                category
-                              )} ${category.toLowerCase()}</span>
-                          </div>
-                          <div class="post-it-text">${entry.text}</div>
-                      </div>
-                    `;
-          })
-          .join("");
+          }
+
+          // Chunk into rows of 5
+          for (let i = 0; i < daySlots.length; i += 5) {
+            const chunk = daySlots.slice(i, i + 5);
+            html += `<div class="day-row">
+              ${chunk.map((s) => s.html).join("")}
+              ${"<div></div>".repeat(5 - chunk.length)}
+            </div>`;
+          }
+        }
+
+        timeline.innerHTML = html;
+
+        // Scroll to today on first render
+        if (!timeline.dataset.scrolled) {
+          timeline.dataset.scrolled = "1";
+          requestAnimationFrame(() => {
+            const todayDot = timeline.querySelector(".today");
+            if (todayDot) {
+              todayDot.scrollIntoView({ block: "center", behavior: "smooth" });
+            }
+          });
+        }
+      }
+
+      function scrollToToday() {
+        const timeline = document.getElementById("yearTimeline");
+        const todayDot = timeline.querySelector(".today");
+        if (todayDot) {
+          todayDot.scrollIntoView({ block: "center", behavior: "smooth" });
+        }
+      }
+
+      function openFan(idsStr) {
+        const ids = idsStr.split(",");
+        const fanEntries = ids.map((id) => entries.find((e) => e.id === id)).filter(Boolean);
+        const overlay = document.getElementById("fanOverlay");
+        const container = document.getElementById("fanCards");
+
+        const rotations = [-3, 1.5, -1, 2.5, -2];
+        container.innerHTML = fanEntries.map((e, i) => {
+          const color = e.color || "#F3E874";
+          const tag = getTagForEntry(e);
+          const rot = rotations[i % rotations.length];
+          return `<div class="fan-card" style="background: ${color}; --fan-rot: ${rot}deg; transition-delay: ${i * 0.06}s" onclick="event.stopPropagation(); closeFan(); viewEntry('${e.id}')">
+            ${e.image ? `<img src="${e.image}" class="fan-card-image">` : ""}
+            <div class="fan-card-tag">${getTagEmoji(tag)} ${getTagLabel(tag).toLowerCase()}</div>
+            <div class="fan-card-text">${e.text}</div>
+          </div>`;
+        }).join("");
+
+        overlay.classList.add("active");
+        // Trigger jiggle after cards appear
+        requestAnimationFrame(() => {
+          container.querySelectorAll(".fan-card").forEach((card, i) => {
+            setTimeout(() => {
+              card.classList.add("show");
+              setTimeout(() => card.classList.add("jiggle"), 200);
+            }, i * 60);
+          });
+        });
+      }
+
+      function closeFan(e) {
+        if (e && e.target !== e.currentTarget) return;
+        const overlay = document.getElementById("fanOverlay");
+        overlay.classList.remove("active");
+        document.getElementById("fanCards").innerHTML = "";
       }
 
       function updateCategoriesButton() {
@@ -2710,9 +3235,9 @@
       async function showCategories() {
         const grouped = {};
         entries.forEach((e) => {
-          const cat = e.category || "Simple Pleasures";
-          if (!grouped[cat]) grouped[cat] = [];
-          grouped[cat].push(e);
+          const tag = getTagForEntry(e);
+          if (!grouped[tag]) grouped[tag] = [];
+          grouped[tag].push(e);
         });
 
         const sorted = Object.entries(grouped).sort(
@@ -2725,16 +3250,17 @@
           '<div style="padding: 40px; text-align: center; color: var(--color-text-secondary);">Generating insights...</div>';
         document.getElementById("categoriesModal").classList.add("active");
 
-        // Generate summaries (with AI if available)
+        // Generate summaries
         const categoriesHTML = await Promise.all(
-          sorted.map(async ([cat, items]) => {
-            const summary = await generateCategorySummary(cat, items);
+          sorted.map(async ([tag, items]) => {
+            const label = getTagLabel(tag);
+            const summary = await generateCategorySummary(label, items);
             return `
                           <div class="category-group">
                               <div class="category-header">
-                                  <h3 class="category-name">${getCategoryEmoji(
-                                    cat
-                                  )} ${cat.toLowerCase()}</h3>
+                                  <h3 class="category-name"><span style="font-size: 12px">${getTagEmoji(
+                                    tag
+                                  )}</span> ${label.toLowerCase()}</h3>
                                   <span class="category-count">${
                                     items.length
                                   }</span>
@@ -2756,20 +3282,19 @@
                                               ? `<img src="${e.image}" class="post-it-image">`
                                               : ""
                                           }
-                                          <div class="post-it-footer">
-                                              <span>${new Date(
-                                                e.date
-                                              ).toLocaleDateString("en-US", {
-                                                month: "short",
-                                                day: "numeric",
-                                              })}</span>
-                                              <span class="post-it-category">${getCategoryEmoji(
-                                                e.category || "Simple Pleasures"
-                                              )} ${(e.category || "Simple Pleasures").toLowerCase()}</span>
+                                          <div class="post-it-body">
+                                            <div class="post-it-footer">
+                                                <span>${new Date(
+                                                  e.date
+                                                ).toLocaleDateString("en-US", {
+                                                  month: "short",
+                                                  day: "numeric",
+                                                })}</span>
+                                            </div>
+                                            <div class="post-it-text">${
+                                              e.text
+                                            }</div>
                                           </div>
-                                          <div class="post-it-text">${
-                                            e.text
-                                          }</div>
                                       </div>
                                   `
                                     )
@@ -2786,6 +3311,206 @@
       function closeCategoriesModal() {
         document.getElementById("categoriesModal").classList.remove("active");
       }
+
+      // ── Pattern Lock ──
+      (function setupPatternLock() {
+        // The secret pattern: dots labeled 1-9, stored as index (label - 1)
+        // Pattern: 8 → 4 → 6 → 2
+        const SECRET_PATTERN = [7, 3, 5, 1];
+        const SESSION_KEY = "journal_unlocked";
+
+        // Skip lock if already unlocked this session
+        if (sessionStorage.getItem(SESSION_KEY) === "true") {
+          document.getElementById("lockScreen").style.display = "none";
+          return;
+        }
+
+        const grid = document.getElementById("patternGrid");
+        const canvas = document.getElementById("patternCanvas");
+        const ctx = canvas.getContext("2d");
+        const subtitle = document.getElementById("lockSubtitle");
+
+        // Build 3x3 dot positions
+        const dots = [];
+        const dotEls = [];
+        const GRID_SIZE = 240;
+        const PADDING = 40;
+        const SPACING = (GRID_SIZE - PADDING * 2) / 2;
+
+        for (let row = 0; row < 3; row++) {
+          for (let col = 0; col < 3; col++) {
+            const x = PADDING + col * SPACING;
+            const y = PADDING + row * SPACING;
+            dots.push({ x, y });
+
+            const dot = document.createElement("div");
+            dot.className = "pattern-dot";
+            dot.style.left = x + "px";
+            dot.style.top = y + "px";
+            const idx = row * 3 + col;
+            dot.dataset.index = idx;
+            dot.textContent = idx + 1; // Label 1-9
+            grid.appendChild(dot);
+            dotEls.push(dot);
+          }
+        }
+
+        // HiDPI canvas
+        function resizeCanvas() {
+          const dpr = window.devicePixelRatio || 1;
+          canvas.width = GRID_SIZE * dpr;
+          canvas.height = GRID_SIZE * dpr;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        resizeCanvas();
+
+        let selectedDots = [];
+        let isDrawing = false;
+        let currentPos = null;
+
+        function getPos(e) {
+          const rect = grid.getBoundingClientRect();
+          const touch = e.touches ? e.touches[0] : e;
+          return {
+            x: touch.clientX - rect.left,
+            y: touch.clientY - rect.top,
+          };
+        }
+
+        function hitTest(pos) {
+          const HIT_RADIUS = 30;
+          for (let i = 0; i < dots.length; i++) {
+            const d = dots[i];
+            const dist = Math.hypot(pos.x - d.x, pos.y - d.y);
+            if (dist < HIT_RADIUS && !selectedDots.includes(i)) {
+              return i;
+            }
+          }
+          return -1;
+        }
+
+        function drawLines(color) {
+          ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+          if (selectedDots.length === 0) return;
+
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 4;
+          ctx.lineCap = "round";
+          ctx.lineJoin = "round";
+
+          ctx.beginPath();
+          const first = dots[selectedDots[0]];
+          ctx.moveTo(first.x, first.y);
+
+          for (let i = 1; i < selectedDots.length; i++) {
+            const d = dots[selectedDots[i]];
+            ctx.lineTo(d.x, d.y);
+          }
+
+          // Draw line to current finger position while dragging
+          if (isDrawing && currentPos) {
+            ctx.lineTo(currentPos.x, currentPos.y);
+          }
+
+          ctx.stroke();
+        }
+
+        function onStart(e) {
+          e.preventDefault();
+          isDrawing = true;
+          selectedDots = [];
+          dotEls.forEach((d) => d.className = "pattern-dot");
+          subtitle.className = "lock-subtitle";
+          subtitle.textContent = "Draw pattern to unlock";
+
+          const pos = getPos(e);
+          currentPos = pos;
+          const hit = hitTest(pos);
+          if (hit >= 0) {
+            selectedDots.push(hit);
+            dotEls[hit].classList.add("active");
+          }
+          drawLines("rgba(255, 204, 128, 0.7)");
+        }
+
+        function onMove(e) {
+          if (!isDrawing) return;
+          e.preventDefault();
+          const pos = getPos(e);
+          currentPos = pos;
+          const hit = hitTest(pos);
+          if (hit >= 0) {
+            selectedDots.push(hit);
+            dotEls[hit].classList.add("active");
+          }
+          drawLines("rgba(255, 204, 128, 0.7)");
+        }
+
+        function onEnd(e) {
+          if (!isDrawing) return;
+          isDrawing = false;
+          currentPos = null;
+
+          if (selectedDots.length < 2) {
+            drawLines("rgba(255, 204, 128, 0.7)");
+            return;
+          }
+
+          // Check pattern
+          const correct =
+            selectedDots.length === SECRET_PATTERN.length &&
+            selectedDots.every((v, i) => v === SECRET_PATTERN[i]);
+
+          if (correct) {
+            drawLines("rgba(124, 190, 89, 0.8)");
+            dotEls.forEach((d) => {
+              d.classList.remove("active");
+              if (selectedDots.includes(parseInt(d.dataset.index))) {
+                d.classList.add("success");
+              }
+            });
+            subtitle.className = "lock-subtitle success";
+            subtitle.textContent = "Unlocked!";
+            sessionStorage.setItem(SESSION_KEY, "true");
+
+            setTimeout(() => {
+              document.getElementById("lockScreen").classList.add("unlocked");
+              setTimeout(() => {
+                document.getElementById("lockScreen").style.display = "none";
+              }, 500);
+            }, 400);
+          } else {
+            drawLines("rgba(255, 107, 107, 0.8)");
+            dotEls.forEach((d) => {
+              d.classList.remove("active");
+              if (selectedDots.includes(parseInt(d.dataset.index))) {
+                d.classList.add("error");
+              }
+            });
+            subtitle.className = "lock-subtitle error";
+            subtitle.textContent = "Try again";
+
+            setTimeout(() => {
+              selectedDots = [];
+              dotEls.forEach((d) => d.className = "pattern-dot");
+              ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+              subtitle.className = "lock-subtitle";
+              subtitle.textContent = "Draw pattern to unlock";
+            }, 800);
+          }
+        }
+
+        // Touch events
+        grid.addEventListener("touchstart", onStart, { passive: false });
+        grid.addEventListener("touchmove", onMove, { passive: false });
+        grid.addEventListener("touchend", onEnd);
+
+        // Mouse events (for desktop testing)
+        grid.addEventListener("mousedown", onStart);
+        grid.addEventListener("mousemove", onMove);
+        grid.addEventListener("mouseup", onEnd);
+        grid.addEventListener("mouseleave", onEnd);
+      })();
 
       init();
 
