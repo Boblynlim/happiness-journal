@@ -16,8 +16,11 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Happiness" />
 
+    <!-- App Icon -->
+    <link rel="apple-touch-icon" href="flower.png" />
+
     <!-- Theme Color -->
-    <meta name="theme-color" content="#1A1A1A" />
+    <meta name="theme-color" content="#f8f8f8" />
 
     <!-- Convex SDK -->
     <script src="https://unpkg.com/convex@1.21.0/dist/browser.bundle.js"></script>
@@ -80,6 +83,182 @@
 
         --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
         --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      html[data-theme="dark"] {
+        --color-bg: #1a1a1a;
+        --color-surface: #2a2a2a;
+        --color-text: #f0f0f0;
+        --color-text-secondary: #8e8e93;
+        --color-text-tertiary: #48484a;
+      }
+
+      html[data-theme="dark"] body {
+        background: var(--color-bg);
+        color: var(--color-text);
+      }
+
+      html[data-theme="dark"] .top-bar {
+        background: rgba(26, 26, 26, 0.95);
+      }
+
+      html[data-theme="dark"] .top-bar h1 {
+        color: #e0e0e0;
+      }
+
+      html[data-theme="dark"] .nav-pill {
+        background: rgba(60, 60, 60, 0.6);
+        border-color: rgba(80, 80, 80, 0.5);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+
+      html[data-theme="dark"] .nav-pill-btn {
+        color: #e0e0e0;
+      }
+
+      html[data-theme="dark"] .nav-pill-divider {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      html[data-theme="dark"] .month-header {
+        background: rgba(26, 26, 26, 0.92);
+      }
+
+      html[data-theme="dark"] .modal {
+        background: #2a2a2a;
+      }
+
+      html[data-theme="dark"] .modal-header {
+        background: #2a2a2a;
+      }
+
+      html[data-theme="dark"] .modal-title {
+        color: #e0e0e0;
+      }
+
+      html[data-theme="dark"] .modal-handle {
+        background: #555;
+      }
+
+      html[data-theme="dark"] .settings-group-label {
+        color: #666;
+      }
+
+      html[data-theme="dark"] .settings-row-hint {
+        color: #666;
+      }
+
+      html[data-theme="dark"] .settings-row-chevron {
+        color: #555;
+      }
+
+      html[data-theme="dark"] .settings-footer-text {
+        color: #444;
+      }
+
+      html[data-theme="dark"] .clear-confirm {
+        border-top-color: rgba(255, 255, 255, 0.05);
+      }
+
+      html[data-theme="dark"] .clear-confirm-text {
+        color: #888;
+      }
+
+      html[data-theme="dark"] .clear-confirm-btn.cancel {
+        background: rgba(255, 255, 255, 0.08);
+        color: #ccc;
+      }
+
+      html[data-theme="dark"] .theme-option {
+        color: #666;
+      }
+
+      html[data-theme="dark"] .note-preview {
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+
+      html[data-theme="dark"] .controls-container {
+        background: #2a2a2a;
+        box-shadow: none;
+      }
+
+      html[data-theme="dark"] .control-label {
+        color: #888;
+      }
+
+      html[data-theme="dark"] .date-input {
+        background: #333;
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      html[data-theme="dark"] .image-upload-btn {
+        background: #333;
+        border-color: #555;
+        color: #999;
+      }
+
+      html[data-theme="dark"] .header-save-btn {
+        color: #e0e0e0;
+      }
+
+      html[data-theme="dark"] .modal-overlay.active {
+        background: rgba(0, 0, 0, 0.4);
+      }
+
+      html[data-theme="dark"] .lock-back-btn {
+        background: rgba(255, 255, 255, 0.08);
+        color: #999;
+      }
+
+      html[data-theme="dark"] .settings-card {
+        background: rgba(50, 50, 50, 0.6);
+        border-color: rgba(70, 70, 70, 0.5);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      }
+
+      html[data-theme="dark"] .settings-row-label {
+        color: #e0e0e0;
+      }
+
+      html[data-theme="dark"] .settings-row + .settings-row {
+        border-top-color: rgba(255, 255, 255, 0.05);
+      }
+
+      html[data-theme="dark"] .settings-row:active {
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      html[data-theme="dark"] .settings-theme-toggle {
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      html[data-theme="dark"] .theme-option.active {
+        background: rgba(255, 255, 255, 0.12);
+        color: #e0e0e0;
+        box-shadow: none;
+      }
+
+      html[data-theme="dark"] .lock-screen {
+        background: var(--color-bg);
+      }
+
+      html[data-theme="dark"] .loading-screen {
+        background: var(--color-bg);
+      }
+
+      html[data-theme="dark"] .controls-container {
+        background: #2a2a2a;
+      }
+
+      html[data-theme="dark"] .view-edit-btn {
+        background: rgba(50, 50, 50, 0.9);
+        color: #e0e0e0;
+      }
+
+      html[data-theme="dark"] .today-btn {
+        background: rgba(50, 50, 50, 0.9);
+        color: #e0e0e0;
       }
 
       * {
@@ -147,6 +326,56 @@
         background: linear-gradient(135deg, #FFF3E0, #FFE0B2, #FFCC80);
         padding: 3px;
         box-shadow: 0 2px 8px rgba(255, 183, 77, 0.3);
+      }
+
+      .nav-pill {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        background: rgba(255, 255, 255, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        border-radius: 999px;
+        padding: 2px;
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+        box-shadow:
+          0 1px 4px rgba(0, 0, 0, 0.04),
+          0 2px 12px rgba(0, 0, 0, 0.03),
+          inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      }
+
+      .nav-pill-btn {
+        background: none;
+        border: none;
+        color: var(--color-text);
+        cursor: pointer;
+        padding: 7px 10px;
+        border-radius: 999px;
+        transition: all 0.2s var(--ease-out);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.6;
+      }
+
+      .nav-pill-btn:hover {
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 1;
+      }
+
+      .nav-pill-btn:active {
+        transform: scale(0.92);
+      }
+
+      .nav-pill-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .nav-pill-divider {
+        width: 1px;
+        height: 16px;
+        background: rgba(0, 0, 0, 0.08);
       }
 
       .categories-btn {
@@ -243,7 +472,7 @@
       .container {
         max-width: 900px;
         margin: 0 auto;
-        padding: 32px 24px 120px;
+        padding: 0 24px 120px;
       }
 
       /* Empty State */
@@ -1179,10 +1408,52 @@
       @keyframes fadeIn {
         from {
           opacity: 0;
+          filter: blur(8px);
         }
         to {
           opacity: 1;
+          filter: blur(0px);
         }
+      }
+
+      /* Loading Screen */
+      .loading-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        background: var(--color-bg);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        transition: opacity 0.6s ease, filter 0.6s ease;
+      }
+
+      .loading-screen.hidden {
+        opacity: 0;
+        filter: blur(8px);
+        pointer-events: none;
+      }
+
+      .loading-flower {
+        width: 56px;
+        height: 56px;
+        animation: spinFlower 3s linear infinite;
+      }
+
+      @keyframes spinFlower {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      .loading-text {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--color-text-secondary);
+        letter-spacing: 0.3px;
+        min-height: 1.4em;
       }
 
       @keyframes cardIn {
@@ -1438,119 +1709,212 @@
 
       /* Settings Modal */
       .settings-content {
-        padding: 0 24px 40px;
+        padding: 0 20px 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
       }
 
-      .settings-section {
-        background: white;
-        border-radius: 16px;
-        padding: 24px;
-        margin-bottom: 20px;
-        box-shadow: var(--shadow-sm);
-      }
-
-      .settings-section h3 {
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 8px;
-        color: var(--color-text);
-      }
-
-      .settings-section p {
-        font-size: 14px;
-        color: var(--color-text-secondary);
-        margin-bottom: 16px;
-        line-height: 1.5;
-      }
-
-      .settings-input {
-        width: 100%;
-        padding: 14px 16px;
-        background: var(--color-bg);
-        border: 1px solid var(--color-text-tertiary);
-        border-radius: var(--radius-sm);
+      .settings-group-label {
         font-family: "IBM Plex Mono", monospace;
-        font-size: 13px;
-        color: var(--color-text);
-        transition: all 0.2s var(--ease-out);
-        margin-bottom: 12px;
+        font-size: 10px;
+        font-weight: 500;
+        text-transform: lowercase;
+        letter-spacing: 1.2px;
+        color: #b0b0b0;
+        padding: 0 4px;
+        margin-bottom: -16px;
       }
 
-      .settings-input:focus {
-        outline: none;
-        border-color: var(--color-accent);
-        background: rgba(0, 122, 255, 0.04);
+      .settings-card {
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow:
+          0 1px 3px rgba(0, 0, 0, 0.02),
+          0 4px 16px rgba(0, 0, 0, 0.03),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8);
       }
 
-      .settings-input::placeholder {
-        color: var(--color-text-tertiary);
-      }
-
-      .api-status {
+      .settings-row {
         display: flex;
         align-items: center;
-        gap: 8px;
-        font-size: 13px;
-        font-weight: 500;
-        padding: 8px 12px;
+        justify-content: space-between;
+        padding: 14px 16px;
+        min-height: 48px;
+        transition: background 0.15s ease;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .settings-row:active {
+        background: rgba(0, 0, 0, 0.03);
+      }
+
+      .settings-row + .settings-row {
+        border-top: 1px solid rgba(0, 0, 0, 0.04);
+      }
+
+      .settings-row-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .settings-row-icon {
+        width: 30px;
+        height: 30px;
         border-radius: 8px;
-        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
       }
 
-      .api-status.connected {
-        background: rgba(52, 199, 89, 0.1);
-        color: #34c759;
-      }
-
-      .api-status.disconnected {
-        background: rgba(255, 59, 48, 0.1);
-        color: #ff3b30;
-      }
-
-      .api-status svg {
+      .settings-row-icon svg {
         width: 16px;
         height: 16px;
       }
 
-      .settings-btn-group {
+      .settings-row-label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        font-weight: 400;
+        color: #484848;
+      }
+
+      .settings-row-hint {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: #b0b0b0;
+        margin-top: 2px;
+      }
+
+      .settings-row-chevron {
+        color: #c7c7cc;
+        flex-shrink: 0;
+      }
+
+      .settings-row-chevron svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      .settings-theme-toggle {
         display: flex;
-        gap: 12px;
+        background: rgba(0, 0, 0, 0.04);
+        border-radius: 8px;
+        padding: 2px;
+        gap: 2px;
       }
 
-      .secondary-btn {
-        flex: 1;
-        padding: 14px;
-        background: var(--color-bg);
-        color: var(--color-text);
-        border: 1px solid var(--color-text-tertiary);
-        border-radius: var(--radius-sm);
-        font-size: 15px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s var(--ease-out);
-      }
-
-      .secondary-btn:hover {
-        background: rgba(0, 0, 0, 0.05);
-        border-color: var(--color-text);
-      }
-
-      .primary-btn {
-        flex: 1;
-        padding: 14px;
-        background: var(--color-text);
-        color: white;
+      .theme-option {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        font-weight: 500;
+        color: #999;
+        background: none;
         border: none;
-        border-radius: var(--radius-sm);
-        font-size: 15px;
-        font-weight: 600;
+        padding: 5px 10px;
+        border-radius: 6px;
         cursor: pointer;
+        transition: all 0.2s var(--ease-out);
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .theme-option.active {
+        background: white;
+        color: #484848;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      }
+
+      .theme-option:active {
+        transform: scale(0.95);
+      }
+
+      .settings-row.danger .settings-row-label {
+        color: var(--color-danger);
+      }
+
+      .settings-row.danger .settings-row-icon svg {
+        stroke: white;
+      }
+
+      /* Clear confirmation */
+      .clear-confirm {
+        display: none;
+        padding: 16px;
+        border-top: 1px solid rgba(0, 0, 0, 0.04);
+        animation: settingsSlideDown 0.25s var(--ease-out);
+      }
+
+      .clear-confirm.visible {
+        display: block;
+      }
+
+      .clear-confirm-text {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--color-text-secondary);
+        margin-bottom: 12px;
+        line-height: 1.5;
+      }
+
+      .clear-confirm-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .clear-confirm-btn {
+        flex: 1;
+        padding: 10px;
+        border-radius: 10px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
         transition: all 0.2s var(--ease-out);
       }
 
-      .primary-btn:hover {
-        background: #0062cc;
-        transform: translateY(-1px);
+      .clear-confirm-btn.cancel {
+        background: rgba(0, 0, 0, 0.05);
+        color: #484848;
+      }
+
+      .clear-confirm-btn.confirm {
+        background: var(--color-danger);
+        color: white;
+      }
+
+      .clear-confirm-btn:active {
+        transform: scale(0.97);
+      }
+
+      @keyframes settingsSlideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .settings-footer {
+        text-align: center;
+        padding: 8px 0 0;
+      }
+
+      .settings-footer-text {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        color: #c7c7cc;
+        letter-spacing: 0.3px;
       }
 
       .info-box {
@@ -1585,7 +1949,7 @@
         right: 0;
         bottom: 0;
         z-index: 9999;
-        background: #2c2c2c;
+        background: var(--color-bg);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -1605,9 +1969,8 @@
         height: 72px;
         border-radius: 18px;
         object-fit: cover;
-        background: linear-gradient(135deg, #FFF3E0, #FFE0B2, #FFCC80);
+        background: transparent;
         padding: 5px;
-        box-shadow: 0 4px 24px rgba(255, 183, 77, 0.35);
       }
 
       .lock-title {
@@ -1615,14 +1978,36 @@
         font-size: 22px;
         font-weight: 400;
         font-style: normal;
-        color: #f5f5f5;
+        color: var(--color-text);
         letter-spacing: -0.3px;
+      }
+
+      .lock-back-btn {
+        position: absolute;
+        top: calc(env(safe-area-inset-top) + 16px);
+        left: 16px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(0, 0, 0, 0.06);
+        color: var(--color-text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s;
+        z-index: 10;
+      }
+
+      .lock-back-btn:active {
+        background: rgba(0, 0, 0, 0.12);
       }
 
       .lock-subtitle {
         font-family: "IBM Plex Mono", monospace;
         font-size: 14px;
-        color: #999;
+        color: var(--color-text-secondary);
         margin-top: -20px;
         transition: all 0.3s ease;
       }
@@ -1660,54 +2045,60 @@
 
       .pattern-dot {
         position: absolute;
-        width: 44px;
-        height: 44px;
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
-        background: #3a3a3a;
-        border: 2px solid #555;
+        background: transparent;
+        border: none;
         transform: translate(-50%, -50%);
         z-index: 2;
         transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 16px;
-        font-weight: 400;
-        color: #888;
         user-select: none;
+        background-image: url('flower.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 1;
+        font-size: 0;
+        color: transparent;
       }
 
       .pattern-dot.active {
-        background: #FFCC80;
-        border-color: #FFB74D;
-        box-shadow: 0 0 16px rgba(255, 183, 77, 0.5);
-        transform: translate(-50%, -50%) scale(1.15);
-        color: #5a3e00;
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+        filter: drop-shadow(0 0 10px rgba(200, 160, 220, 0.5));
       }
 
       .pattern-dot.error {
-        background: #ff6b6b;
-        border-color: #ff4444;
-        box-shadow: 0 0 16px rgba(255, 68, 68, 0.5);
-        color: #500;
+        opacity: 0.8;
+        filter: hue-rotate(-60deg) saturate(1.5) drop-shadow(0 0 10px rgba(255, 68, 68, 0.4));
       }
 
       .pattern-dot.success {
-        background: #96ce7a;
-        border-color: #84bc68;
-        box-shadow: 0 0 16px rgba(150, 206, 122, 0.5);
-        color: #1a3a00;
+        opacity: 1;
+        filter: hue-rotate(60deg) saturate(1.2) drop-shadow(0 0 10px rgba(150, 206, 122, 0.4));
       }
     </style>
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+      <img src="flower.png" alt="" class="loading-flower" />
+      <div class="loading-text" id="loadingText">watering dreams</div>
+    </div>
+
     <!-- Pattern Lock Screen -->
     <div class="lock-screen" id="lockScreen">
-      <img src="star.png" alt="logo" class="lock-logo" />
-      <div class="lock-title">What makes me happy</div>
-      <div class="lock-subtitle" id="lockSubtitle">Draw pattern to unlock</div>
+      <button class="lock-back-btn" id="lockBackBtn" style="display: none" onclick="window.patternLock.cancelChange()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <div class="lock-subtitle" id="lockSubtitle">draw pattern to unlock</div>
       <div class="pattern-grid" id="patternGrid">
         <canvas id="patternCanvas"></canvas>
       </div>
@@ -1717,25 +2108,23 @@
     <div class="top-bar">
       <div class="top-bar-content">
         <h1>What makes me happy</h1>
-        <button
-          class="categories-btn"
-          id="categoriesBtn"
-          onclick="showCategories()"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <rect x="3" y="3" width="7" height="7"></rect>
-            <rect x="14" y="3" width="7" height="7"></rect>
-            <rect x="14" y="14" width="7" height="7"></rect>
-            <rect x="3" y="14" width="7" height="7"></rect>
-          </svg>
-        </button>
+        <div class="nav-pill">
+          <button class="nav-pill-btn" id="categoriesBtn" onclick="showCategories()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+          </button>
+          <div class="nav-pill-divider"></div>
+          <button class="nav-pill-btn" onclick="openSettings()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1958,25 +2347,109 @@
           <h2 class="modal-title">Settings</h2>
         </div>
         <div class="settings-content">
-          <div class="settings-section">
-            <h3>Cloud Sync</h3>
-            <p>Your journal is synced to the cloud via Convex.</p>
-            <div class="api-status connected" style="display: flex">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-              </svg>
-              <span>Syncing to Convex</span>
+
+          <div class="settings-group-label">security</div>
+          <div class="settings-card">
+            <div class="settings-row" onclick="changePattern()">
+              <div class="settings-row-left">
+                <div class="settings-row-icon" style="background: var(--purple)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#7c6a99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="settings-row-label">change pattern</div>
+                  <div class="settings-row-hint">set a new unlock pattern</div>
+                </div>
+              </div>
+              <div class="settings-row-chevron">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="settings-row" onclick="lockNow()">
+              <div class="settings-row-left">
+                <div class="settings-row-icon" style="background: var(--blue)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#5a8abf" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="settings-row-label">lock now</div>
+                  <div class="settings-row-hint">return to pattern screen</div>
+                </div>
+              </div>
+              <div class="settings-row-chevron">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
             </div>
           </div>
 
-          <div class="settings-section">
-            <h3>Export Data</h3>
-            <p>Download all your journal entries as a JSON file.</p>
-            <button class="primary-btn" onclick="exportData()" style="width: 100%">
-              Export JSON
-            </button>
+          <div class="settings-group-label">appearance</div>
+          <div class="settings-card">
+            <div class="settings-row" style="cursor: default">
+              <div class="settings-row-left">
+                <div class="settings-row-icon" style="background: var(--yellow)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#9a8a3a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                  </svg>
+                </div>
+                <div class="settings-row-label">theme</div>
+              </div>
+              <div class="settings-theme-toggle" id="themeToggle">
+                <button class="theme-option active" data-theme="light" onclick="setTheme('light')">light</button>
+                <button class="theme-option" data-theme="dark" onclick="setTheme('dark')">dark</button>
+                <button class="theme-option" data-theme="auto" onclick="setTheme('auto')">auto</button>
+              </div>
+            </div>
           </div>
+
+          <div class="settings-group-label">data</div>
+          <div class="settings-card">
+            <div class="settings-row danger" onclick="showClearConfirm()">
+              <div class="settings-row-left">
+                <div class="settings-row-icon" style="background: #fca5a5">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#ff3b30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="settings-row-label">clear all entries</div>
+                  <div class="settings-row-hint">permanently delete everything</div>
+                </div>
+              </div>
+              <div class="settings-row-chevron">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="clear-confirm" id="clearConfirm">
+              <div class="clear-confirm-text">this will delete all your journal entries. this cannot be undone.</div>
+              <div class="clear-confirm-actions">
+                <button class="clear-confirm-btn cancel" onclick="event.stopPropagation(); hideClearConfirm()">never mind</button>
+                <button class="clear-confirm-btn confirm" onclick="event.stopPropagation(); clearAllEntries()">yes, delete all</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-footer">
+            <div class="settings-footer-text">made with warmth</div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -2067,19 +2540,56 @@
         document.getElementById("settingsModal").classList.add("active");
       }
 
-      function exportData() {
-        const data = {
-          exportedAt: new Date().toISOString(),
-          entryCount: entries.length,
-          entries: entries,
-        };
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `happiness-journal-export-${new Date().toISOString().split("T")[0]}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
+      function changePattern() {
+        document.getElementById("settingsModal").classList.remove("active");
+        if (typeof window.patternLock !== "undefined") {
+          window.patternLock.startChangePattern();
+        }
+      }
+
+      function lockNow() {
+        document.getElementById("settingsModal").classList.remove("active");
+        sessionStorage.removeItem("journal_unlocked");
+        if (typeof window.patternLock !== "undefined") {
+          window.patternLock.showLockScreen("draw pattern to unlock", false);
+        }
+      }
+
+      function setTheme(theme) {
+        localStorage.setItem("journal_theme", theme);
+        document.querySelectorAll(".theme-option").forEach(btn => {
+          btn.classList.toggle("active", btn.dataset.theme === theme);
+        });
+        applyTheme(theme);
+      }
+
+      function applyTheme(theme) {
+        if (theme === "auto") {
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+
+      function showClearConfirm() {
+        document.getElementById("clearConfirm").classList.add("visible");
+      }
+
+      function hideClearConfirm() {
+        document.getElementById("clearConfirm").classList.remove("visible");
+      }
+
+      async function clearAllEntries() {
+        for (const entry of entries) {
+          try {
+            await convexClient.mutation("entries:remove", { id: entry.id });
+          } catch (e) {}
+        }
+        entries = [];
+        localStorage.removeItem("happinessEntries");
+        renderEntries();
+        updateCategoriesButton();
+        hideClearConfirm();
+        document.getElementById("settingsModal").classList.remove("active");
       }
 
       // Value-Based Categories (tag the feeling, not the action)
@@ -2650,12 +3160,71 @@
       }
 
       async function init() {
+        // Apply saved theme
+        const savedTheme = localStorage.getItem("journal_theme") || "light";
+        applyTheme(savedTheme);
+        document.querySelectorAll(".theme-option").forEach(btn => {
+          btn.classList.toggle("active", btn.dataset.theme === savedTheme);
+        });
+
+        // Listen for system theme changes when on auto
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+          if (localStorage.getItem("journal_theme") === "auto") applyTheme("auto");
+        });
+
         // Set today as default date
         const today = new Date().toISOString().split("T")[0];
         document.getElementById("dateInput").value = today;
 
-        // Load entries from Convex
-        await loadEntriesFromConvex();
+        // Typewriter loading text
+        const loadingPhrases = [
+          "watering dreams",
+          "picking wildflowers",
+          "catching sunbeams",
+          "collecting moments",
+        ];
+        const loadingTextEl = document.getElementById("loadingText");
+        loadingTextEl.textContent = "";
+        let loadingCancelled = false;
+
+        async function typePhrase(text) {
+          // Type in
+          for (let i = 0; i <= text.length; i++) {
+            if (loadingCancelled) return;
+            loadingTextEl.textContent = text.slice(0, i);
+            await new Promise(r => setTimeout(r, 45));
+          }
+          // Pause
+          await new Promise(r => setTimeout(r, 800));
+          // Backspace out
+          for (let i = text.length; i >= 0; i--) {
+            if (loadingCancelled) return;
+            loadingTextEl.textContent = text.slice(0, i);
+            await new Promise(r => setTimeout(r, 30));
+          }
+          await new Promise(r => setTimeout(r, 200));
+        }
+
+        async function typeLoop() {
+          let idx = 0;
+          while (!loadingCancelled) {
+            await typePhrase(loadingPhrases[idx]);
+            idx = (idx + 1) % loadingPhrases.length;
+          }
+        }
+        typeLoop();
+
+        // Load entries from Convex + ensure minimum display time
+        const minDisplay = new Promise(r => setTimeout(r, 5000));
+        await Promise.all([loadEntriesFromConvex(), minDisplay]);
+
+        // Hide loading screen
+        loadingCancelled = true;
+        const loadingScreen = document.getElementById("loadingScreen");
+        loadingScreen.classList.add("hidden");
+        setTimeout(() => {
+          loadingScreen.style.display = "none";
+        }, 600);
 
         // Initialize Lucide icons
         if (typeof lucide !== "undefined") {
@@ -3226,9 +3795,11 @@
       function updateCategoriesButton() {
         const btn = document.getElementById("categoriesBtn");
         if (entries.length >= 5) {
-          btn.classList.add("visible");
+          btn.style.opacity = "";
+          btn.style.pointerEvents = "";
         } else {
-          btn.classList.remove("visible");
+          btn.style.opacity = "0.2";
+          btn.style.pointerEvents = "none";
         }
       }
 
@@ -3314,17 +3885,30 @@
 
       // ── Pattern Lock ──
       (function setupPatternLock() {
-        // The secret pattern: dots labeled 1-9, stored as index (label - 1)
-        // Pattern: 8 → 4 → 6 → 2
-        const SECRET_PATTERN = [7, 3, 5, 1];
+        const PATTERN_KEY = "journal_pattern";
         const SESSION_KEY = "journal_unlocked";
+        const DEFAULT_PATTERN = [7, 3, 5, 1]; // 8 → 4 → 6 → 2
+
+        function getPattern() {
+          const saved = localStorage.getItem(PATTERN_KEY);
+          return saved ? JSON.parse(saved) : DEFAULT_PATTERN;
+        }
+
+        function savePattern(pattern) {
+          localStorage.setItem(PATTERN_KEY, JSON.stringify(pattern));
+        }
+
+        // Mode: "unlock" | "verify_old" | "set_new" | "confirm_new"
+        let mode = "unlock";
+        let newPatternCandidate = null;
 
         // Skip lock if already unlocked this session
         if (sessionStorage.getItem(SESSION_KEY) === "true") {
           document.getElementById("lockScreen").style.display = "none";
-          return;
         }
 
+        const lockScreen = document.getElementById("lockScreen");
+        const backBtn = document.getElementById("lockBackBtn");
         const grid = document.getElementById("patternGrid");
         const canvas = document.getElementById("patternCanvas");
         const ctx = canvas.getContext("2d");
@@ -3349,7 +3933,7 @@
             dot.style.top = y + "px";
             const idx = row * 3 + col;
             dot.dataset.index = idx;
-            dot.textContent = idx + 1; // Label 1-9
+            dot.textContent = idx + 1;
             grid.appendChild(dot);
             dotEls.push(dot);
           }
@@ -3367,6 +3951,45 @@
         let selectedDots = [];
         let isDrawing = false;
         let currentPos = null;
+
+        function resetDots() {
+          selectedDots = [];
+          dotEls.forEach((d) => d.className = "pattern-dot");
+          ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+        }
+
+        function showLockScreen(text, showBack) {
+          lockScreen.style.display = "";
+          lockScreen.classList.remove("unlocked");
+          backBtn.style.display = showBack ? "" : "none";
+          subtitle.className = "lock-subtitle";
+          subtitle.textContent = text;
+          resetDots();
+        }
+
+        function hideLockScreen() {
+          sessionStorage.setItem(SESSION_KEY, "true");
+          lockScreen.classList.add("unlocked");
+          setTimeout(() => {
+            lockScreen.style.display = "none";
+          }, 500);
+        }
+
+        function startChangePattern() {
+          mode = "verify_old";
+          newPatternCandidate = null;
+          showLockScreen("draw your current pattern", true);
+        }
+
+        function cancelChange() {
+          mode = "unlock";
+          newPatternCandidate = null;
+          // Already unlocked, just hide
+          lockScreen.style.display = "none";
+          backBtn.style.display = "none";
+          // Re-open settings
+          document.getElementById("settingsModal").classList.add("active");
+        }
 
         function getPos(e) {
           const rect = grid.getBoundingClientRect();
@@ -3392,27 +4015,54 @@
         function drawLines(color) {
           ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
           if (selectedDots.length === 0) return;
-
           ctx.strokeStyle = color;
           ctx.lineWidth = 4;
           ctx.lineCap = "round";
           ctx.lineJoin = "round";
-
           ctx.beginPath();
           const first = dots[selectedDots[0]];
           ctx.moveTo(first.x, first.y);
-
           for (let i = 1; i < selectedDots.length; i++) {
             const d = dots[selectedDots[i]];
             ctx.lineTo(d.x, d.y);
           }
-
-          // Draw line to current finger position while dragging
           if (isDrawing && currentPos) {
             ctx.lineTo(currentPos.x, currentPos.y);
           }
-
           ctx.stroke();
+        }
+
+        function showSuccess(text, callback) {
+          drawLines("rgba(124, 190, 89, 0.8)");
+          dotEls.forEach((d) => {
+            d.classList.remove("active");
+            if (selectedDots.includes(parseInt(d.dataset.index))) d.classList.add("success");
+          });
+          subtitle.className = "lock-subtitle success";
+          subtitle.textContent = text;
+          setTimeout(() => {
+            resetDots();
+            callback();
+          }, 600);
+        }
+
+        function showError(text, resetText) {
+          drawLines("rgba(255, 107, 107, 0.8)");
+          dotEls.forEach((d) => {
+            d.classList.remove("active");
+            if (selectedDots.includes(parseInt(d.dataset.index))) d.classList.add("error");
+          });
+          subtitle.className = "lock-subtitle error";
+          subtitle.textContent = text;
+          setTimeout(() => {
+            resetDots();
+            subtitle.className = "lock-subtitle";
+            subtitle.textContent = resetText;
+          }, 800);
+        }
+
+        function matchesPattern(drawn, target) {
+          return drawn.length === target.length && drawn.every((v, i) => v === target[i]);
         }
 
         function onStart(e) {
@@ -3420,8 +4070,6 @@
           isDrawing = true;
           selectedDots = [];
           dotEls.forEach((d) => d.className = "pattern-dot");
-          subtitle.className = "lock-subtitle";
-          subtitle.textContent = "Draw pattern to unlock";
 
           const pos = getPos(e);
           currentPos = pos;
@@ -3430,7 +4078,7 @@
             selectedDots.push(hit);
             dotEls[hit].classList.add("active");
           }
-          drawLines("rgba(255, 204, 128, 0.7)");
+          drawLines("rgba(200, 170, 220, 0.6)");
         }
 
         function onMove(e) {
@@ -3443,60 +4091,67 @@
             selectedDots.push(hit);
             dotEls[hit].classList.add("active");
           }
-          drawLines("rgba(255, 204, 128, 0.7)");
+          drawLines("rgba(200, 170, 220, 0.6)");
         }
 
-        function onEnd(e) {
+        function onEnd() {
           if (!isDrawing) return;
           isDrawing = false;
           currentPos = null;
 
           if (selectedDots.length < 2) {
-            drawLines("rgba(255, 204, 128, 0.7)");
+            drawLines("rgba(200, 170, 220, 0.6)");
             return;
           }
 
-          // Check pattern
-          const correct =
-            selectedDots.length === SECRET_PATTERN.length &&
-            selectedDots.every((v, i) => v === SECRET_PATTERN[i]);
+          const currentPattern = getPattern();
 
-          if (correct) {
-            drawLines("rgba(124, 190, 89, 0.8)");
-            dotEls.forEach((d) => {
-              d.classList.remove("active");
-              if (selectedDots.includes(parseInt(d.dataset.index))) {
-                d.classList.add("success");
-              }
-            });
-            subtitle.className = "lock-subtitle success";
-            subtitle.textContent = "Unlocked!";
-            sessionStorage.setItem(SESSION_KEY, "true");
+          if (mode === "unlock") {
+            if (matchesPattern(selectedDots, currentPattern)) {
+              showSuccess("unlocked!", () => {
+                hideLockScreen();
+                mode = "unlock";
+              });
+            } else {
+              showError("try again", "draw pattern to unlock");
+            }
 
-            setTimeout(() => {
-              document.getElementById("lockScreen").classList.add("unlocked");
-              setTimeout(() => {
-                document.getElementById("lockScreen").style.display = "none";
-              }, 500);
-            }, 400);
-          } else {
-            drawLines("rgba(255, 107, 107, 0.8)");
-            dotEls.forEach((d) => {
-              d.classList.remove("active");
-              if (selectedDots.includes(parseInt(d.dataset.index))) {
-                d.classList.add("error");
-              }
-            });
-            subtitle.className = "lock-subtitle error";
-            subtitle.textContent = "Try again";
+          } else if (mode === "verify_old") {
+            if (matchesPattern(selectedDots, currentPattern)) {
+              showSuccess("verified!", () => {
+                mode = "set_new";
+                subtitle.className = "lock-subtitle";
+                subtitle.textContent = "draw a new pattern";
+              });
+            } else {
+              showError("incorrect pattern", "draw your current pattern");
+            }
 
-            setTimeout(() => {
-              selectedDots = [];
-              dotEls.forEach((d) => d.className = "pattern-dot");
-              ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
+          } else if (mode === "set_new") {
+            if (selectedDots.length < 3) {
+              showError("connect at least 3 dots", "draw a new pattern");
+              return;
+            }
+            newPatternCandidate = [...selectedDots];
+            showSuccess("got it!", () => {
+              mode = "confirm_new";
               subtitle.className = "lock-subtitle";
-              subtitle.textContent = "Draw pattern to unlock";
-            }, 800);
+              subtitle.textContent = "draw it again to confirm";
+            });
+
+          } else if (mode === "confirm_new") {
+            if (matchesPattern(selectedDots, newPatternCandidate)) {
+              savePattern(newPatternCandidate);
+              showSuccess("pattern saved!", () => {
+                mode = "unlock";
+                newPatternCandidate = null;
+                backBtn.style.display = "none";
+                lockScreen.style.display = "none";
+                document.getElementById("settingsModal").classList.add("active");
+              });
+            } else {
+              showError("patterns don't match", "draw it again to confirm");
+            }
           }
         }
 
@@ -3510,6 +4165,13 @@
         grid.addEventListener("mousemove", onMove);
         grid.addEventListener("mouseup", onEnd);
         grid.addEventListener("mouseleave", onEnd);
+
+        // Expose API for settings
+        window.patternLock = {
+          startChangePattern,
+          cancelChange,
+          showLockScreen,
+        };
       })();
 
       init();
