@@ -1,6 +1,6 @@
 {
-  "name": "Happiness Journal",
-  "short_name": "Happiness",
+  "name": "Bob's Journal",
+  "short_name": "Bob's Journal",
   "description": "Capture moments that bring you joy",
   "start_url": "./index.html",
   "display": "standalone",
