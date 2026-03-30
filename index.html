@@ -203,6 +203,14 @@
         color: #e0e0e0;
       }
 
+      html[data-theme="dark"] .modal-close-btn {
+        color: #888;
+      }
+
+      html[data-theme="dark"] .modal-close-btn:active {
+        background: rgba(255, 255, 255, 0.08);
+      }
+
       html[data-theme="dark"] .modal-overlay.active {
         background: rgba(0, 0, 0, 0.4);
       }
@@ -928,6 +936,30 @@
         letter-spacing: -0.3px;
         color: #484848;
         opacity: 0.8;
+      }
+
+      .modal-close-btn {
+        background: none;
+        border: none;
+        color: var(--color-text-secondary);
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .modal-close-btn:active {
+        background: rgba(0, 0, 0, 0.05);
+        transform: scale(0.9);
+      }
+
+      .modal-close-btn svg {
+        width: 22px;
+        height: 22px;
       }
 
       .header-save-btn {
@@ -2337,6 +2369,12 @@
         <div class="modal-handle"></div>
         <div class="modal-header">
           <h2 class="modal-title">Your patterns</h2>
+          <button class="modal-close-btn" onclick="closeCategoriesModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         </div>
         <div id="categoriesContent" class="categories-content"></div>
       </div>
@@ -2352,6 +2390,12 @@
         <div class="modal-handle"></div>
         <div class="modal-header">
           <h2 class="modal-title">Settings</h2>
+          <button class="modal-close-btn" onclick="document.getElementById('settingsModal').classList.remove('active')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
         </div>
         <div class="settings-content">
 
