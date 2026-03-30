@@ -4017,6 +4017,8 @@
         }
 
         function showLockScreen(text, showBack) {
+          mode = "unlock";
+          newPatternCandidate = null;
           lockScreen.style.display = "";
           lockScreen.classList.remove("unlocked");
           backBtn.style.display = showBack ? "" : "none";
