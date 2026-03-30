@@ -276,6 +276,11 @@
         box-sizing: border-box;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        scrollbar-width: none;
+      }
+
+      *::-webkit-scrollbar {
+        display: none;
       }
 
       html {
@@ -904,6 +909,27 @@
 
       .modal-overlay.active .modal {
         transform: translateY(0);
+      }
+
+      /* Drawer modals - slide from right */
+      .modal-overlay.drawer .modal {
+        right: 0;
+        left: auto;
+        width: 85%;
+        max-width: 400px;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: var(--radius-xl) 0 0 var(--radius-xl);
+        transform: translateX(100%);
+        transition: transform 0.4s var(--ease-out);
+      }
+
+      .modal-overlay.drawer.active .modal {
+        transform: translateX(0);
+      }
+
+      .modal-overlay.drawer .modal-handle {
+        display: none;
       }
 
       .modal-handle {
@@ -2369,7 +2395,7 @@
     <!-- Categories Modal -->
     <div
       id="categoriesModal"
-      class="modal-overlay"
+      class="modal-overlay drawer"
       onclick="handleOverlayClick(event)"
     >
       <div class="modal">
@@ -2390,7 +2416,7 @@
     <!-- Settings Modal -->
     <div
       id="settingsModal"
-      class="modal-overlay"
+      class="modal-overlay drawer"
       onclick="handleOverlayClick(event)"
     >
       <div class="modal">
@@ -3291,6 +3317,7 @@
 
         // Initialize swipe-down gesture for modals
         initSwipeGestures();
+        initDrawerGestures();
       }
 
       // Swipe gesture support
@@ -3298,8 +3325,6 @@
         const modalConfigs = [
           { id: "addModal", overlay: "addModal" },
           { id: "viewModal", overlay: "viewModal" },
-          { id: "categoriesModal", overlay: "categoriesModal" },
-          { id: "settingsModal", overlay: "settingsModal" },
         ];
 
         modalConfigs.forEach((config) => {
@@ -3393,6 +3418,48 @@
             }
 
             startedOnHandle = false;
+          });
+        });
+      }
+
+      // Drawer swipe-right-to-close
+      function initDrawerGestures() {
+        ["categoriesModal", "settingsModal"].forEach((id) => {
+          const overlay = document.getElementById(id);
+          if (!overlay) return;
+          const modal = overlay.querySelector(".modal");
+          if (!modal) return;
+
+          let startX = 0, currentX = 0, dragging = false;
+
+          modal.addEventListener("touchstart", (e) => {
+            startX = e.touches[0].clientX;
+            currentX = startX;
+            dragging = true;
+          }, { passive: true });
+
+          modal.addEventListener("touchmove", (e) => {
+            if (!dragging) return;
+            currentX = e.touches[0].clientX;
+            const diff = currentX - startX;
+            if (diff > 0) {
+              modal.style.transform = `translateX(${diff}px)`;
+              modal.style.transition = "none";
+            }
+          }, { passive: true });
+
+          modal.addEventListener("touchend", () => {
+            if (!dragging) return;
+            dragging = false;
+            const diff = currentX - startX;
+            modal.style.transition = "";
+            if (diff > 80) {
+              overlay.classList.remove("active");
+              modal.style.transform = "";
+              if (id === "categoriesModal") closeCategoriesModal();
+            } else {
+              modal.style.transform = "";
+            }
           });
         });
       }
