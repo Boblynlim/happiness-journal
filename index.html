@@ -4189,6 +4189,7 @@
           }
 
           const currentPattern = getPattern();
+          console.log("drawn:", selectedDots, "expected:", currentPattern, "mode:", mode);
 
           if (mode === "unlock") {
             if (matchesPattern(selectedDots, currentPattern)) {
