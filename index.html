@@ -2575,25 +2575,27 @@
         try {
           if (entry.id && typeof entry.id === "string" && entry.id.startsWith("j")) {
             // Existing Convex entry — update
-            await convexClient.mutation("entries:update", {
+            const updateArgs = {
               id: entry.id,
               text: entry.text,
               color: entry.color,
               image: entry.image || null,
               category: entry.category,
-              tag: entry.tag || undefined,
               date: entry.date,
-            });
+            };
+            if (entry.tag) updateArgs.tag = entry.tag;
+            await convexClient.mutation("entries:update", updateArgs);
           } else {
             // New entry — create
-            const newId = await convexClient.mutation("entries:create", {
+            const args = {
               text: entry.text,
               color: entry.color,
               image: entry.image || null,
               category: entry.category,
-              tag: entry.tag || undefined,
               date: entry.date,
-            });
+            };
+            if (entry.tag) args.tag = entry.tag;
+            const newId = await convexClient.mutation("entries:create", args);
             entry.id = newId;
           }
           // Reload from Convex to stay in sync
@@ -3969,7 +3971,7 @@
       (function setupPatternLock() {
         const PATTERN_KEY = "journal_pattern";
         const SESSION_KEY = "journal_unlocked";
-        const DEFAULT_PATTERN = [7, 3, 5, 1]; // 8 → 4 → 6 → 2
+        const DEFAULT_PATTERN = [0, 3, 6, 7, 8]; // 1 → 4 → 7 → 8 → 9 (L-shape)
 
         function getPattern() {
           const saved = localStorage.getItem(PATTERN_KEY);
@@ -4189,7 +4191,6 @@
           }
 
           const currentPattern = getPattern();
-          console.log("drawn:", selectedDots, "expected:", currentPattern, "mode:", mode);
 
           if (mode === "unlock") {
             if (matchesPattern(selectedDots, currentPattern)) {
