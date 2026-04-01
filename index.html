@@ -4051,9 +4051,11 @@
           ctx.clearRect(0, 0, GRID_SIZE, GRID_SIZE);
         }
 
-        function showLockScreen(text, showBack) {
-          mode = "unlock";
-          newPatternCandidate = null;
+        function showLockScreen(text, showBack, resetMode) {
+          if (resetMode !== false) {
+            mode = "unlock";
+            newPatternCandidate = null;
+          }
           lockScreen.style.display = "";
           lockScreen.classList.remove("unlocked");
           backBtn.style.display = showBack ? "" : "none";
@@ -4073,7 +4075,7 @@
         function startChangePattern() {
           mode = "verify_old";
           newPatternCandidate = null;
-          showLockScreen("draw your current pattern", true);
+          showLockScreen("draw your current pattern", true, false);
         }
 
         function cancelChange() {
